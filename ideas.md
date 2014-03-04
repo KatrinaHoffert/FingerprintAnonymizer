@@ -1,4 +1,5 @@
-EXTENSION FUNCTIONALITY:
+Extension functionality:
+========================
 
 To avoid breaking websites, all potential tracking situations should create an alert box that allows the user to choose whether or not to permit the site from accessing information that could be used to track the user. If they accept, the site should be added to a whitelist (sites on the whitelist are not checked for violations).
 
@@ -22,7 +23,8 @@ Note that Java, Flash, Silverlight, etc allow means of checking beyond our abili
 
 For other features that could be used to identify browsers, see http://browserspy.dk/ (although whether anything else gets implemented would depend on time constraints).
 
-IMPLEMENTATION:
+Implementation:
+===============
 
 For changing HTTP headers, we'll have to use the WebRequest API: http://developer.chrome.com/extensions/webRequest
 
