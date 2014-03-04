@@ -1,10 +1,8 @@
-FingerprintAnonymizer
-=====================
+#FingerprintAnonymizer
 
 A Chrome extension for removing identifying information to reduce or prevent browser fingerprinting.
 
-Installation
-============
+##Installation
 For development:
 
 1. Go to `chrome://extensions`
@@ -16,13 +14,11 @@ When you make changes to the extension, load your changes by clicking the reload
 
 For distribution, see: http://developer.chrome.com/extensions/packaging
 
-Resources for development
-=========================
+##Resources for development
 
 * [Extensions overview](http://developer.chrome.com/extensions/overview)
 * [Debugging tutorial](http://developer.chrome.com/extensions/tut_debugging)
 * [Chrome APIs](http://developer.chrome.com/extensions/api_index)
 
-Development plan
-================
-See `ideas.txt` for the discussed plan for development.
+##Development plan
+See [planning.md](planning.md) for the discussed plan for development.
