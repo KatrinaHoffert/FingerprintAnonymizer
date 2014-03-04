@@ -14,9 +14,15 @@ For development:
 
 When you make changes to the extension, load your changes by clicking the reload link on the extension on the `chrome://extensions` page.
 
+For distribution, see: http://developer.chrome.com/extensions/packaging
+
 Resources for development
 =========================
 
 * [Extensions overview](http://developer.chrome.com/extensions/overview)
 * [Debugging tutorial](http://developer.chrome.com/extensions/tut_debugging)
 * [Chrome APIs](http://developer.chrome.com/extensions/api_index)
+
+Development plan
+================
+See `ideas.txt` for the discussed plan for development.
