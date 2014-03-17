@@ -1,0 +1,4 @@
+Plugin detection + Browser action -- Nathan
+Font detection -- Jeff
+Language headers + settings -- Kari
+Whitelist -- Mike
