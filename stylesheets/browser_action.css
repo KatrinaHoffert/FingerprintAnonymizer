@@ -1,0 +1,19 @@
+body
+{
+	background-color: #eee;
+	font-family: arial, "sans serif";
+}
+
+#add
+{
+	margin-top: 1em;
+	width: 20em;
+	padding: 0.5em;
+	border-radius: 1em;
+	background-color: #ccc;
+}
+
+button:focus
+{
+	outline:0;
+}
