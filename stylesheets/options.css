@@ -1,0 +1,33 @@
+body
+{
+	margin: 0;
+	padding: 0;
+	background-color: gray;
+}
+
+#wrapper
+{
+	width: 60em;
+	margin: 0 auto;
+	background-color: silver;
+	padding: 1em;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+h1
+{
+	font-size: 2.5em;
+}
+
+.description
+{
+	margin-left: 2em;
+}
+
+#whitelist
+{
+	min-width: 55em;
+	min-height: 10em;
+	background-color: #ddd;
+}

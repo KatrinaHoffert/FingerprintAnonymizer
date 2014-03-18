@@ -1,17 +1,20 @@
 <html>
 	<head>
-		<title>Fingerprint Anonymizer Options</title>
+		<title>Fingerprint Anonymizer &mdash; Options</title>
+		<link rel="stylesheet" href="../stylesheets/options.css">
+		<script src="../scripts/jquery.js"></script>
 	</head>
 	<body>
-		<h1>Fingerprint Anonymizer Options</h1>
-		<p>
-			TODO: Options and stuff goes here.
-		</p>
-		<p>
-			See <a href="http://developer.chrome.com/extensions/options">http://developer.chrome.com/extensions/options</a> for basic development help.
-		</p>
-		<p>
-			HOWEVER, we'll probably want to use <a href="http://developer.chrome.com/extensions/storage">chrome.storage</a> instead, as it makes it easier to access stored settings from the content script and allows data to be synced (amongst other advantages).
-		</p>
+		<div id="wrapper">
+			<h1>Fingerprint Anonymizer &mdash; Options</h1>
+			<h2>Whitelist</h2>
+			<p class="description">
+				One entry per line. Entries are <a href="https://en.wikipedia.org/wiki/Regex">regex</a> which will be matched to the domain only.
+			</p>
+			<textarea id="whitelist"></textarea>
+			<br />
+			<input type="button" id="save" value="Save" />
+		</div>
+		<script src="../scripts/settings.js"></script>
 	</body>
 </html>
