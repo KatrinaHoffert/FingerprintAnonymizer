@@ -1,3 +1,4 @@
+// Populate the text area with our previously saved array
 chrome.storage.sync.get(
 	'whitelist',
 	function (result){

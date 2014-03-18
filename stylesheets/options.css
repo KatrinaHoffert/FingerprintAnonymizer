@@ -7,7 +7,7 @@ body
 
 #wrapper
 {
-	width: 60em;
+	max-width: 60em;
 	margin: 0 auto;
 	background-color: silver;
 	padding: 1em;
@@ -27,7 +27,7 @@ h1
 
 #whitelist
 {
-	min-width: 55em;
-	min-height: 10em;
+	width: 55em;
+	height: 10em;
 	background-color: #ddd;
 }
