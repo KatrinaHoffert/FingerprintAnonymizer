@@ -22,9 +22,13 @@ var DEBUG = true;
 			// Get the stored whitelist array
 			var whitelist = result.whitelist;
 
+			chrome.storage.local.set({'current_page': document.URL}, function(){
+				console.log('Saved current site.');
+			});
+
 			// Iterate over array and check for matches with our domain
 			var found = false;
-			for(var i = 0; i < whitelist.length; i++)
+			for(var i = 0; i < whitelist; i++)
 			{
 				// Check if a given regex matches the domain
 				if((new RegExp(whitelist[i])).exec(document.domain))
@@ -42,7 +46,7 @@ var DEBUG = true;
 	// Runs after the deferred object is notified. The value that was resolved
 	// with dfd (found) will be passed as a parameter to run().
 	$.when(dfd).then(run);
-})();
+}());
 
 /**
  * This function will be run after the whitelist status is determined. If the
