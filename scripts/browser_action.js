@@ -15,5 +15,16 @@
 // Also have to provide a method to add the current domain to the whitelist.
 
 $('#add').click(function(){
-	alert("I haven't been implemented yet!");
+	console.log('add');
+	chrome.storage.sync.get(
+		'whitelist',
+		function(result) {
+			var whitelist = result.whitelist;
+			chrome.storage.local.get(
+				'current_page',
+				function(result) {
+					whitelist+=result.current_page;
+				});
+		});
+	console.log('Current page has been added.')
 });
