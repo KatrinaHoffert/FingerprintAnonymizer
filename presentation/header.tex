@@ -1,0 +1,48 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% This is the header, it defines a bunch of properties  %%
+%% that will make up the document. You shouldn't have to %%
+%% know or change this file at all.                      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The type of document -- beamer (presentations) with dark (ish)
+% green for coloured stuff (boxes, labels, etc)
+\documentclass[14pt,xcolor=dvipsnames]{beamer}
+\setbeamercolor{structure}{fg=OliveGreen!85!black}
+\usetheme{Madrid}
+
+% So our code will be using Courier New
+\usepackage{courier}
+\renewcommand{\ttdefault}{pcr}
+
+% Hide navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+% Allow embedded source code w/ syntax highlighting
+\usepackage{listings}
+
+%% Needed to give pretty colors to our syntax highlighting
+\usepackage{xcolor}
+\definecolor{pgreen}{rgb}{0,0.5,0} % Custom green for our comments
+
+% Settings for syntax highlighting
+\lstset{
+    tabsize=4, % sets default tabsize to 4 spaces
+    frame=single, % Border around code block (single = single line)
+    rulecolor=\color{lightgray}, % Border color
+    backgroundcolor=\color{lightgray!20}, % Color for background
+    showstringspaces=false, % don't underline spaces within strings
+    basicstyle=\ttfamily\scriptsize, % Colors for various key words, etc
+    keywordstyle=\color{blue}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    commentstyle=\color{pgreen}\ttfamily,
+}
+
+% Define a JavaScript language because it's not included by default
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, finally, for, function, if, in, instanceof, new, return, switch, this, throw, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  sensitive=true
+}

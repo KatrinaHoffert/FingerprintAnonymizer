@@ -1,0 +1,180 @@
+% Include various properties that define the structure of the document
+% You don't need to read this file at all
+\input{header.tex}
+
+% Side note: you're gonna want line wrap enabled for this document. I
+% also highly recommend using TexMaker for editing -- it's insalled
+% on the Spinks lab machines
+
+% Presentation info -- Inside the square braces is short info -- displayed
+% in slide footers. Inside squiggly braces displayed on title page only
+\title{Internet Anonymity}
+\author[Hoffert, Abramyk, Pereyma, Vass]{Mike Hoffert \\ Nathan Abramyk \\ Jeff Pereyma \\ Kari Vass}
+
+% Body starts here. Each frame is what PowerPoint calls "slides"
+\begin{document}
+
+% Title slide -- plain (no footer) and doesn't count in the number of frames
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+\addtocounter{framenumber}{-1}
+
+% Importance of IA
+\begin{frame}[fragile,t]{Internet anonymity is important}
+	\begin{itemize}
+		\item Supports freedom of speech: governments can't censor you if they don't know who you are
+		\item Skirting surveillance generally requires anonymity (perhaps to avoid government censorship)
+		\item Oppressive governments often attempt censorship
+		\begin{itemize}
+			\item Turkey recently blocked Twitter
+			\item Amnesty International stated that China ``has the largest recorded number of imprisoned journalists and cyber-dissidents in the world''
+			\item In Iran, internet users must promise not to access ``non-Islamic'' websites
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,t]{Internet anonymity is important}
+	\begin{itemize}
+		\item Whistleblowers may need anonymity to prevent retaliation
+		\item Undercover military and law enforcement agents often need anonymity for their protection
+		\item Journalists may have to protect their sources
+		\item One line of defence against targeted attacks
+		\item Removes real life consequences for controversial opinions
+		\item Some people feel uncomfortable speaking publicly
+	\end{itemize}
+\end{frame}
+
+% Threats to IA
+\begin{frame}[fragile,t]{Threats to internet anonymity}
+	\begin{itemize}
+		\item IP addresses can be tied to an ISP customer (but insufficient to identify a specific individual)
+		\begin{itemize}
+			\item There could be another person using the computer
+			\item Drive by downloading
+		\end{itemize}
+		\item A number of recent American actions would have implications on internet anonymity: SOPA, PIPA, PRISM, CISPA, etc
+		\item ISPs that sell your information
+		\item Tracking services (especially with online advertisers)
+		\item Browsers have lots of identifying information -- \textbf{this is what our project focused on}
+	\end{itemize}
+\end{frame}
+
+% Browser fingerprint
+\begin{frame}[fragile,t]{Browser fingerprint}
+	\begin{itemize}
+		\item TODO: Mention information that can be used to ID browser.
+		\item This is a \textit{high level} introduction to the topics that will be discussed in more depth in the next few slides
+		\item Stress how the factors combine together to form a fingerprint (ie, a browser might be the only one with this specific combination of features)
+	\end{itemize}
+\end{frame}
+
+% Panopticlick
+\begin{frame}[fragile,t]{Panopticlick}
+	\begin{itemize}
+		\item The tool used to gauge the effectiveness of our changes was the EFF's Panopticlick research project
+		\item Panopticlick $<$\textcolor{gray}{https://panopticlick.eff.org/}$>$ is an attempt to identify the uniqueness of a browser via some of the previously mentioned techniques
+		\item We picked the most identifying techniques and attempted to thwart them
+		\item Let's go into more detail on how we did that
+	\end{itemize}
+\end{frame}
+
+% HTTP headers
+\begin{frame}[fragile,t]{HTTP headers}
+	\begin{itemize}
+		\item TODO: Detail how HTTP headers ID the browser and our solution
+	\end{itemize}
+\end{frame}
+
+% Available fonts
+\begin{frame}[fragile,t]{Available fonts}
+	\begin{itemize}
+		\item TODO: Detail how the list of available fonts impacts fingerprinting, why we weren't able to solve this, and what changes browsers/JS would need to prevent this
+		\item Don't mention other methods of detecting fonts (Java, Flash) here, they get their own section
+	\end{itemize}
+\end{frame}
+
+% Available plugins
+\begin{frame}[fragile,t]{Available plugins}
+	\begin{itemize}
+		\item TODO: Detail how the list of available plugins impacts fingerprinting, how we solved this, and the major shortfall of our solution
+		\item Be sure to detail how the browser/JS implementation could offer a better solution than our hacky fix
+	\end{itemize}
+\end{frame}
+
+% Other fingerprinting threats
+\begin{frame}[fragile,t]{Other fingerprinting threats}
+	\begin{itemize}
+		\item TODO: Detail how things like Java, Flash, cookies, etc can be used to fingerprint
+		\item Be sure to mention how Panopticlick uses Flash for its font detection
+		\item Mention how to prevent these (Flashblock, Ghostery, etc)
+	\end{itemize}
+\end{frame}
+
+% Putting it all together
+\begin{frame}[fragile,t]{Putting it all together}
+	\begin{itemize}
+		\item Our Chrome plugin, named ``Fingerprint Anonymizer'', adds several hooks and overrides to prevent or reduce fingerprinting
+		\item The goal was not to flat out block actions that could be used to identify the user, but rather to let the user know that they were taking place and allow them to choose whether or not to allow them
+		\item This goal was ultimately not possible, due to the fact that much of the data was accessed through parameters and not functions -- we couldn't add functionality to detect when information was read
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,t]{Putting it all together}
+	\begin{itemize}
+		\item A whitelist was implemented, which the user could add domains for which the blocking is not activated
+		\item The user can manually add regex for matching domains to the whitelist in the extension's options page
+		\item We also implemented a browser action (a button in the browser's main toolbar that opens a prompt) to add the current domain to the whitelist
+		\item Rewriting the HTTP headers is done for all pages
+		\item TODO: mention end result (panopticlick results)
+	\end{itemize}
+\end{frame}
+
+% Drawbacks
+\begin{frame}[fragile,t]{Drawbacks}
+	\begin{itemize}
+		\item TODO: Mention the limitations of our project
+		\item Include mention of limitations of fingerprinting (frequently changes, tracks machine and not user, etc)
+		\item Mention technical limitations such as having to block all plugins and not being able to block font detection
+	\end{itemize}
+\end{frame}
+
+% Conclusion
+\begin{frame}[fragile,t]{Conclusion}
+	\begin{itemize}
+		\item TODO: Rough conclusion of the things browsers/JS can improve on to prevent fingerprinting, other extensions (like Flashblock, etc), and how effective we think our techniques are at stopping fingerprinting
+	\end{itemize}
+\end{frame}
+
+% Demo slide -- plain (no footer) and doesn't count in the number of frames
+% This marks the end of the presentation
+\begin{frame}[plain]
+	\begin{block}{Demo}
+		Let's now consider a quick demo of the extension in action
+	\end{block}
+\end{frame}
+\addtocounter{framenumber}{-1}
+
+% Example of how to use source code inside your slide
+% To be removed for the final version
+\begin{frame}[fragile,t]{TODO: Remove me}
+	This slide demonstrates how source code is displayed
+	\begin{lstlisting}[language=JavaScript]
+		// Populate the text area with our previously saved array
+		chrome.storage.sync.get(
+		    'whitelist',
+		    function (result){
+		        // Get the stored whitelist array
+		        var whitelist = result.whitelist;
+
+		        // Iterate over array and populate our page
+		        for(var i = 0; i < whitelist.length; i++)
+		        {
+		            $('#whitelist').append(whitelist[i] + "\n");
+		        }
+		    }
+		);
+	\end{lstlisting}
+\end{frame}
+
+\end{document}
