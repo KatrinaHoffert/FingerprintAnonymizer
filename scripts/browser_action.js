@@ -1,4 +1,15 @@
 /**
+ * Helper function for retrieving the domain of a url.
+ * Created by Filip Roseen - refp
+ * http://stackoverflow.com/a/8498668/1968462
+ */
+function urlDomain(data) {
+	var a = document.createElement('a');
+	a.href = data;
+	return a.hostname;
+}
+
+/**
  * Check if the page is already on the whitelist and modify the page if it is.
  * Nothing will happen if the page is not on the whitelist.
  */
@@ -8,12 +19,15 @@ chrome.storage.sync.get(
 	{
 		var whitelist = result.whitelist;
 
-		// Get the current page
-		chrome.storage.local.get(
-			'current_page',
-			function(result)
+		// Get the current tab
+		chrome.tabs.query(
 			{
-				var currentPage = result.current_page;
+				currentWindow: true,
+				active: true
+			},
+			function (tabs)
+			{
+				var currentPage = urlDomain(tabs[0].url);
 
 				// Set the current domain text
 				$('#currentDomain').html(currentPage);
@@ -47,16 +61,18 @@ $('#add').click(function(){
 		{
 			var whitelist = result.whitelist;
 
-			// Get the current page
-			chrome.storage.local.get(
-				'current_page',
-				function(result)
+			// Get the current tab
+			chrome.tabs.query(
 				{
-					// Push the new page to the whitelist array
-					whitelist.push(result.current_page);
+					currentWindow: true,
+					active: true
+				},
+				function (tabs)
+				{
+					var currentPage = urlDomain(tabs[0].url);
 
-					// Set the current domain text
-					$('#currentDomain').html(result.current_page);
+					// Push the new page to the whitelist array
+					whitelist.push(currentPage);
 
 					// Save the modified whitelist
 					chrome.storage.sync.set(

@@ -22,20 +22,6 @@ var DEBUG = true;
 			// Get the stored whitelist array
 			var whitelist = result.whitelist;
 
-			// Set the current page
-			chrome.storage.local.set(
-				{
-					'current_page': document.domain
-				},
-				function()
-				{
-					if(DEBUG)
-					{
-						console.log("Saved current_page as" + document.domain);
-					}
-				}
-			);
-
 			// Iterate over array and check for matches with our domain
 			var found = false;
 			for(var i = 0; i < whitelist.length; i++)
