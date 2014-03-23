@@ -1,0 +1,12 @@
+<html>
+<head></head>
+<body>
+	<script>
+		document.write("Plugins info:<br />");
+		for(var i = 0; i < navigator.plugins.length; i++)
+		{
+			document.write(JSON.stringify(navigator.plugins[i]));
+		}
+	</script>
+</body>
+</html>
