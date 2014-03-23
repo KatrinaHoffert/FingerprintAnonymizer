@@ -1,19 +1,41 @@
-// PLANNING:
-// In order for this script to be aware of the current page, you'll have to
-// have the content script save the current page into chrome.storage.local
-// This script could then load that value from chrome.storage.local (there's
-// no other way to communicate between the browser action and the current page).
-// Just the domain of the current page has to be saved.
-//
-// Then this script would check that domain against all domains in the whitelist
-// (using regex similar to that used in the injected script). If there's a
-// match, then modify the HTML to reflect this (eg, disable button and change
-// the text).
-//
-// If there is no match, nothing needs to be done (default look of the HTML).
-//
-// Also have to provide a method to add the current domain to the whitelist.
+/**
+ * Check if the page is already on the whitelist and modify the page if it is.
+ * Nothing will happen if the page is not on the whitelist.
+ */
+chrome.storage.sync.get(
+	'whitelist',
+	function(result)
+	{
+		var whitelist = result.whitelist;
 
+		// Get the current page
+		chrome.storage.local.get(
+			'current_page',
+			function(result)
+			{
+				var currentPage = result.current_page;
+
+				// Iterate over array and check for matches with our domain
+				for(var i = 0; i < whitelist.length; i++)
+				{
+					// Check if domain is on the whitelist and change the
+					// page style if it is
+					if(currentPage.indexOf(whitelist[i]) !== -1)
+					{
+						$('#add').html('&#10004; Added to whitelist');
+						$('#add').prop('disabled', true);
+						$('#add').css('color', 'green');
+					}
+				}
+			}
+		);
+	}
+);
+
+/**
+ * Event handler for when the add button is clicked. The page will be added
+ * to the whitelist.
+ */
 $('#add').click(function(){
 	// Get the whitelist
 	chrome.storage.sync.get(
