@@ -46,7 +46,7 @@ var DEBUG = true;
 	// Runs after the deferred object is notified. The value that was resolved
 	// with dfd (found) will be passed as a parameter to run().
 	$.when(dfd).then(run);
-}());
+})();
 
 /**
  * This function will be run after the whitelist status is determined. If the
