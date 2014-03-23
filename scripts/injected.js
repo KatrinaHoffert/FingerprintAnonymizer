@@ -22,7 +22,7 @@ var DEBUG = true;
 			// Get the stored whitelist array
 			var whitelist = result.whitelist;
 
-			chrome.storage.local.set({'current_page': document.URL}, function(){
+			chrome.storage.local.set({'current_page': document.domain}, function(){
 				console.log('Saved current site.');
 			});
 
@@ -30,8 +30,8 @@ var DEBUG = true;
 			var found = false;
 			for(var i = 0; i < whitelist.length; i++)
 			{
-				// Check if a given regex matches the domain
-				if((new RegExp(whitelist[i])).exec(document.domain))
+				// Check if domain is on the whitelist
+				if(document.domain.indexOf(whitelist[i]) !== -1)
 				{
 					found = true;
 					break;
