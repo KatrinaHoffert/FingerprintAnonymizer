@@ -28,7 +28,7 @@ var DEBUG = true;
 
 			// Iterate over array and check for matches with our domain
 			var found = false;
-			for(var i = 0; i < whitelist; i++)
+			for(var i = 0; i < whitelist.length; i++)
 			{
 				// Check if a given regex matches the domain
 				if((new RegExp(whitelist[i])).exec(document.domain))
