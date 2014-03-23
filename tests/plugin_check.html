@@ -2,10 +2,10 @@
 <head></head>
 <body>
 	<script>
-		document.write("Plugins info:<br />");
+		document.write("<b>Plugins list:</b><br />");
 		for(var i = 0; i < navigator.plugins.length; i++)
 		{
-			document.write(JSON.stringify(navigator.plugins[i]));
+			document.write(navigator.plugins[i].name + "<br />");
 		}
 	</script>
 </body>
