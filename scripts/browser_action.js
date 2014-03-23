@@ -15,6 +15,9 @@ chrome.storage.sync.get(
 			{
 				var currentPage = result.current_page;
 
+				// Set the current domain text
+				$('#currentDomain').html(currentPage);
+
 				// Iterate over array and check for matches with our domain
 				for(var i = 0; i < whitelist.length; i++)
 				{
@@ -51,6 +54,9 @@ $('#add').click(function(){
 				{
 					// Push the new page to the whitelist array
 					whitelist.push(result.current_page);
+
+					// Set the current domain text
+					$('#currentDomain').html(result.current_page);
 
 					// Save the modified whitelist
 					chrome.storage.sync.set(

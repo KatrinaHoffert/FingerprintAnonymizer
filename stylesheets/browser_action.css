@@ -17,3 +17,9 @@ button:focus
 {
 	outline:0;
 }
+
+#currentDomainLabel
+{
+	margin-top: 0.25em;
+	font-weight: bold;
+}
