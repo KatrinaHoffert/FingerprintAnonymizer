@@ -65,21 +65,18 @@
 	\begin{itemize}
 		\item A browser fingerprint is a way to identify a specific browser, based an unique identifiers that is holds
 		\item Some features include things like:
+		% I removed cookies from here because they're so useless at fingerprinting - Mike
 		\begin{itemize}
 			\item Header Information
 			\item Installed Plugins
 			\item Installed Fonts
 			\item Time Zone
 			\item Screen Size
-			\item Cookies
 			\item User Agent
 		\end{itemize}
 		\item If you combine these features of a browser together, you will find that every browser tends to have a very unique set of these properties. This is your ``Browser Fingerprint''
 	\end{itemize}
-	
 \end{frame}
-
-% Browser fingerprinting techniques
 
 % Panopticlick
 \begin{frame}[fragile,t]{Panopticlick}
@@ -87,6 +84,7 @@
 		\item The tool used to gauge the effectiveness of our changes was the EFF's Panopticlick research project
 		\item Panopticlick $<$\textcolor{gray}{https://panopticlick.eff.org/}$>$ is an attempt to identify the uniqueness of a browser via some of the previously mentioned techniques
 		\item We picked the most identifying techniques and attempted to thwart them
+		\item The goal was to make the browser as difficult to fingerprint as possible
 		\item Let's go into more detail on how we did that
 	\end{itemize}
 \end{frame}
@@ -103,7 +101,7 @@
 \begin{frame}[fragile,t]{HTTP Headers: Our Solution}
 	\begin{itemize}
 		\item Our solution to this problem was to look at modifying the header fields before they are sent.
-		\item For instance, in setting the Language-Accept field to accept US English, or any other English. This is more generic than passing en-CA.
+		\item For instance, in setting the Language-Accept field to accept just the more generic US english instead of trying to accept Canadian english (much less common).
 		\item Consider that with our language preference set to Canadian English, roughly \textbf{1 in 220,000} browsers have this value. In passing en-US instead, \textbf{1 in 40} browsers have this value. 
 	\end{itemize}
 \end{frame}
@@ -141,6 +139,7 @@
 		\begin{itemize}
 			\item File: mms.cfg Line: DisableDeviceFontEnumeration = 1
 		\end{itemize}
+		\item Fingerprinting can be combined with the approximate geographical location that an IP address tells us. This is not an accurate location, but neither are other fingerprinting techniques -- it's the combination that makes for accuracy
 	\end{itemize}
 \end{frame}
 
@@ -166,9 +165,25 @@
 % Drawbacks
 \begin{frame}[fragile,t]{Drawbacks}
 	\begin{itemize}
-		\item TODO: Mention the limitations of our project
-		\item Include mention of limitations of fingerprinting (frequently changes, tracks machine and not user, etc)
-		\item Mention technical limitations such as having to block all plugins and not being able to block font detection
+		\item Fingerprinting is not accurate
+		\begin{itemize}
+			\item It tracks machines, not individuals
+			\item Some information, such as browser user agents, can change very frequently
+			\item Browsers are beginning to implement features to prevent mass gathering of information
+			\item Firefox, for example, no longer allows enumeration of plugins (but you can still detect individual plugins)
+		\end{itemize}
+		\item Chrome extensions are sandboxed. If we modify JavaScript objects in our content script, they won't be modified on the actual page (unlike Firefox)
+		\item Many JavaScript properties are accessed as parameters rather than by functions
+	\end{itemize}
+\end{frame}
+
+% Drawbacks
+\begin{frame}[fragile,t]{Drawbacks}
+	\begin{itemize}
+		\item While parameters can be overridden, you can't change the behaviour of accessing parameters, and thus we cannot tell if a parameter is accessed
+		\item This provides a compelling reason to use getters and setters instead of direct variable access (although JavaScript lacks visibility modifiers)
+		\item The browser itself prevents some types of changes in the name of security -- and thus \textbf{no} extension can make such modification (sandboxing is an example)
+		\item Thus, some security concerns outside the scope of extensions -- up to the browser to implement them
 	\end{itemize}
 \end{frame}
 
