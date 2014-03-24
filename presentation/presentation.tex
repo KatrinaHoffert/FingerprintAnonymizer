@@ -124,8 +124,8 @@
 % Available plugins
 \begin{frame}[fragile,t]{Available plugins}
 	\begin{itemize}
-		\item TODO: Detail how the list of available plugins impacts fingerprinting, how we solved this, and the major shortfall of our solution
-		\item Be sure to detail how the browser/JS implementation could offer a better solution than our hacky fix
+		\item \textcolor{red}{TODO: Detail how the list of available plugins impacts fingerprinting, how we solved this, and the major shortfall of our solution}
+		\item \textcolor{red}{Be sure to detail how the browser/JS implementation could offer a better solution than our hacky fix}
 	\end{itemize}
 \end{frame}
 
@@ -158,7 +158,7 @@
 		\item The user can manually add regex for matching domains to the whitelist in the extension's options page
 		\item We also implemented a browser action (a button in the browser's main toolbar that opens a prompt) to add the current domain to the whitelist
 		\item Rewriting the HTTP headers is done for all pages
-		\item TODO: mention end result (panopticlick results)
+		\item \textcolor{red}{TODO: mention end result (panopticlick results)}
 	\end{itemize}
 \end{frame}
 
@@ -188,6 +188,14 @@
 \end{frame}
 
 % Extension details
+\begin{frame}[fragile,t]{Our extension}
+	\begin{itemize}
+		\item Because of the various drawbacks, our extension was largely unsuccessful
+		\item The sandboxing of scripts and frequent use of parameters instead of functions for accessing data were main reasons for this
+		\item However, we did achieve a working extension which allowed site detection, supported a whitelist of sites, and generalized sent HTTP headers
+		\item \textcolor{red}{TODO: Add pictures - I got this one - Mike}
+	\end{itemize}
+\end{frame}
 
 % Conclusion
 \begin{frame}[fragile,t]{Conclusion}
