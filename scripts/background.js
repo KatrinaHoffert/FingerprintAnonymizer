@@ -2,7 +2,7 @@
 chrome.webRequest.onBeforeSendHeaders.addListener(
 	function(details) {
     	for (var i = 0; i < details.requestHeaders.length; ++i) {
-			//Remove User-Agent string
+			//Set User-Agent string to "generic" value
         	if (details.requestHeaders[i].name === 'User-Agent') { 
             	details.requestHeaders[i].value = "Mozilla/5.0 AppleWebKit (KHTML, like Gecko) Chrome Safari";
             }

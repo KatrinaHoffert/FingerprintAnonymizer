@@ -79,6 +79,8 @@
 	
 \end{frame}
 
+% Browser fingerprinting techniques
+
 % Panopticlick
 \begin{frame}[fragile,t]{Panopticlick}
 	\begin{itemize}
@@ -90,9 +92,19 @@
 \end{frame}
 
 % HTTP headers
-\begin{frame}[fragile,t]{HTTP headers}
+\begin{frame}[fragile,t]{HTTP Headers}
 	\begin{itemize}
-		\item TODO: Detail how HTTP headers ID the browser and our solution
+		\item The fields in your HTTP headers can be used to help to detect your browser fingerprint.
+		\item The header field User-Agent contains identifying information regarding your operating system and version, as well what browser you're using and what version it is.
+		\item The Language-Accept field can also pass identifying information regarding language settings. For instance, your browser might be passing en-CA (Canadian English) as your preferred language.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,t]{HTTP Headers: Our Solution}
+	\begin{itemize}
+		\item Our extension works to solve this problem by modifying the header fields before they are sent.
+		\item For instance, in setting the Language-Accept field to accept US English, or any other English. This is more generic than passing en-CA.
+		\item Consider that with our language preference set to Canadian English, roughly \textbf{1 in 220,000} browsers have this value. Once our extension passes in en-US instead, \textbf{1 in 40} browsers have this value. 
 	\end{itemize}
 \end{frame}
 
