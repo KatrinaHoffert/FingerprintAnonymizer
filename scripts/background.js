@@ -17,3 +17,9 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
         },
         {urls: ["<all_urls>"]},
         ["blocking", "requestHeaders"]);
+	
+//Block specific known fingerprinting scripts	
+chrome.webRequest.onBeforeRequest.addListener(
+        function(details) { return {cancel: true}; },
+        {urls: ["*://www.lalit.org/wordpress/wp-content/uploads/2008/05/fontdetect.js*"/*,"*://panopticlick.eff.org/resources/fetch_whorls.js*"*/]},
+        ["blocking"]);	
