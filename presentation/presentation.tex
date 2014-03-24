@@ -187,33 +187,25 @@
 	\end{itemize}
 \end{frame}
 
+% Extension details
+
 % Conclusion
 \begin{frame}[fragile,t]{Conclusion}
 	\begin{itemize}
-		\item TODO: Rough conclusion of the things browsers/JS can improve on to prevent fingerprinting, other extensions (like Flashblock, etc), and how effective we think our techniques are at stopping fingerprinting
+		\item Browser fingerprinting has potential of tracking browsers based on their discernible features
+		\item Features that are largely unique are much more trackable
+		\item Preventing enumeration of these features is the best defence against fingerprinting
+		\item Due to limitations of the JavaScript language and browser extension capabilities, preventing enumeration is beyond the scope of extensions -- up to browser creators to implement
+		\item Preventing detection of fonts and plugins hinders legitimate sites -- better to prevent mass detection
 	\end{itemize}
 \end{frame}
 
-% Example of how to use source code inside your slide
-% To be removed for the final version
-\begin{frame}[fragile,t]{TODO: Remove me}
-	This slide demonstrates how source code is displayed
-	\begin{lstlisting}[language=JavaScript]
-		// Populate the text area with our previously saved array
-		chrome.storage.sync.get(
-		    'whitelist',
-		    function (result){
-		        // Get the stored whitelist array
-		        var whitelist = result.whitelist;
-
-		        // Iterate over array and populate our page
-		        for(var i = 0; i < whitelist.length; i++)
-		        {
-		            $('#whitelist').append(whitelist[i] + "\n");
-		        }
-		    }
-		);
-	\end{lstlisting}
+% Git link
+\begin{frame}[plain]
+	\begin{block}{Project source code available on GitHub}
+		https://github.com/MikeHoffert/FingerprintAnonymizer
+	\end{block}
 \end{frame}
+\addtocounter{framenumber}{-1}
 
 \end{document}
