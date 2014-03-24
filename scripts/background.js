@@ -1,11 +1,10 @@
 //We want to react before the headers are sent, so that they can be modified.
-//Delete User-Agent from all requests.
 chrome.webRequest.onBeforeSendHeaders.addListener(
 	function(details) {
     	for (var i = 0; i < details.requestHeaders.length; ++i) {
 			//Remove User-Agent string
         	if (details.requestHeaders[i].name === 'User-Agent') { 
-            	details.requestHeaders[i].value = "";
+            	details.requestHeaders[i].value = "Mozilla/5.0 AppleWebKit (KHTML, like Gecko) Chrome Safari";
             }
 			//Set language header to something more generic
 			//Accepts US English, or any other English
