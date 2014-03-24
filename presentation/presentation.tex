@@ -63,10 +63,20 @@
 % Browser fingerprint
 \begin{frame}[fragile,t]{Browser fingerprint}
 	\begin{itemize}
-		\item TODO: Mention information that can be used to ID browser.
-		\item This is a \textit{high level} introduction to the topics that will be discussed in more depth in the next few slides
-		\item Stress how the factors combine together to form a fingerprint (ie, a browser might be the only one with this specific combination of features)
+		\item A browser fingerprint is a way to identify a specific browser, based an unique identifiers that is holds
+		\item Some features include things like:
+		\begin{itemize}
+			\item Header Information
+			\item Installed Plugins
+			\item Installed Fonts
+			\item Time Zone
+			\item Screen Size
+			\item Cookies
+			\item User Agent
+		\end{itemize}
+		\item If you combine these features of a browser together, you will find that every browser tends to have a very unique set of these properties. This is your "Browser Fingerprint"
 	\end{itemize}
+	
 \end{frame}
 
 % Panopticlick
@@ -89,8 +99,15 @@
 % Available fonts
 \begin{frame}[fragile,t]{Available fonts}
 	\begin{itemize}
-		\item TODO: Detail how the list of available fonts impacts fingerprinting, why we weren't able to solve this, and what changes browsers/JS would need to prevent this
-		\item Don't mention other methods of detecting fonts (Java, Flash) here, they get their own section
+		\item Browser fonts can be incredibly identifying because most people have a unique set of fonts installed
+		\item Clever and varying techniques using Javascript can be used to accomplish this
+		\item Primary method we tried to break was measuring font width/height
+		\item 2 Approaches to the problem:
+			\begin{itemize}
+				\item Override the specific functions that measure fonts
+				\item Override or block common DOM methods used when measuring fonts
+			\end{itemize}
+		\item Problems arise with page load times and overriding DOM methods	
 	\end{itemize}
 \end{frame}
 
@@ -105,9 +122,13 @@
 % Other fingerprinting threats
 \begin{frame}[fragile,t]{Other fingerprinting threats}
 	\begin{itemize}
-		\item TODO: Detail how things like Java, Flash, cookies, etc can be used to fingerprint
-		\item Be sure to mention how Panopticlick uses Flash for its font detection
-		\item Mention how to prevent these (Flashblock, Ghostery, etc)
+		\item Flash is an effective and very common method to detect fonts
+		\item Panopticlick uses Flash for it's font detection
+		\item To prevent these, there are extension like Flashblock, or Ghostery
+		\item You can also change settings in your Flash install
+		\begin{itemize}
+			\item File: mms.cfg Line: DisableDeviceFontEnumeration = 1
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
