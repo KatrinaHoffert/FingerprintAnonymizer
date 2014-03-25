@@ -61,32 +61,34 @@ function run(listedStatus)
 		}
 
 		//  The code to inject
-		var injectedCode = [' \
-			var backup = {}; \
-			backup.appCodeName = window.navigator.appCodeName; \
-			backup.appName = window.navigator.appName; \
-			backup.appVersion = window.navigator.appVersion; \
-			backup.battery = window.navigator.battery; \
-			backup.connection = window.navigator.connection; \
-			backup.cookieEnabled = window.navigator.cookieEnabled; \
-			backup.geolocation = window.navigator.geolocation; \
-			backup.javaEnabled = window.navigator.javaEnabled; \
-			backup.language = window.navigator.language; \
-			backup.mimeTypes = window.navigator.mimeTypes; \
-			backup.onLine = window.navigator.onLine; \
-			backup.oscpu = window.navigator.oscpu; \
-			backup.platform = window.navigator.platform; \
-			backup.product = window.navigator.product; \
-			backup.userAgent = window.navigator.userAgent; \
-			backup.buildID = window.navigator.buildID; \
-			backup.id = window.navigator.id; \
-			backup.doNotTrack = window.navigator.doNotTrack; \
-			backup.registerContentHandler = window.navigator.registerContentHandler; \
-			backup.registerProtocolHandler = window.navigator.registerProtocolHandler; \
-			backup.vibrate = window.navigator.vibrate; \
-			window.navigator = null; \
-			window.navigator = backup; \
-		'];
+		var injectedCode = [
+			'// Backup selected navigator properties',
+			'var backup = {};',
+			'backup.appCodeName = window.navigator.appCodeName;',
+			'backup.appName = window.navigator.appName;',
+			'backup.appVersion = window.navigator.appVersion;',
+			'backup.battery = window.navigator.battery;',
+			'backup.connection = window.navigator.connection;',
+			'backup.cookieEnabled = window.navigator.cookieEnabled;',
+			'backup.geolocation = window.navigator.geolocation;',
+			'backup.javaEnabled = window.navigator.javaEnabled;',
+			'backup.language = window.navigator.language;',
+			'backup.mimeTypes = window.navigator.mimeTypes;',
+			'backup.onLine = window.navigator.onLine;',
+			'backup.oscpu = window.navigator.oscpu;',
+			'backup.platform = window.navigator.platform;',
+			'backup.product = window.navigator.product;',
+			'backup.userAgent = window.navigator.userAgent;',
+			'backup.buildID = window.navigator.buildID;',
+			'backup.id = window.navigator.id;',
+			'backup.doNotTrack = window.navigator.doNotTrack;',
+			'backup.registerContentHandler = window.navigator.registerContentHandler;',
+			'backup.registerProtocolHandler = window.navigator.registerProtocolHandler;',
+			'backup.vibrate = window.navigator.vibrate;',
+			'',
+			'// And reset the navigator to the backup',
+			'window.navigator = backup;'
+		].join('\n');
 
 		// Create a script tag with the injected code
 		var script = document.createElement('script');
