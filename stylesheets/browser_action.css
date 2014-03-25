@@ -7,8 +7,8 @@ body
 #add, #remove
 {
 	margin-top: 1em;
-	width: 20em;
-	padding: 0.5em;
+	width: 16em;
+	padding: 0.25em;
 	border-radius: 1em;
 	background-color: #ccc;
 }
@@ -27,7 +27,7 @@ button:focus
 
 #currentDomainLabel
 {
-	margin-top: 0.25em;
+	margin-top: 0.5em;
 	font-weight: bold;
 }
 
