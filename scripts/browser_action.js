@@ -91,3 +91,6 @@ $('#add').click(function(){
 		}
 	);
 });
+
+// Add a link to the options page
+$('#optionsLink').attr('href', chrome.extension.getURL("html/options.html"));
