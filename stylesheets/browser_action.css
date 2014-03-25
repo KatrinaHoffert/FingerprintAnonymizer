@@ -4,13 +4,20 @@ body
 	font-family: arial, "sans serif";
 }
 
-#add
+#add, #remove
 {
 	margin-top: 1em;
 	width: 20em;
 	padding: 0.5em;
 	border-radius: 1em;
 	background-color: #ccc;
+}
+
+#remove
+{
+	margin-top: 0;
+	color: darkred;
+	display: none;
 }
 
 button:focus

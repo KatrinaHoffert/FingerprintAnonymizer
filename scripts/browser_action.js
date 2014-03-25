@@ -39,9 +39,7 @@ chrome.storage.sync.get(
 					// page style if it is
 					if(currentPage.indexOf(whitelist[i]) !== -1)
 					{
-						$('#add').html('&#10004; Added to whitelist');
-						$('#add').prop('disabled', true);
-						$('#add').css('color', 'green');
+						setAdded();
 					}
 				}
 			}
@@ -81,9 +79,7 @@ $('#add').click(function(){
 						},
 						function()
 						{
-							$('#add').html('&#10004; Added to whitelist');
-							$('#add').prop('disabled', true);
-							$('#add').css('color', 'green');
+							setAdded();
 						}
 					);
 				}
@@ -91,6 +87,78 @@ $('#add').click(function(){
 		}
 	);
 });
+
+/**
+ * Event handler for when the remove button is clicked. The page will be removed
+ * from the whitelist.
+ */
+$('#remove').click(function(){
+	// Get the whitelist
+	chrome.storage.sync.get(
+		'whitelist',
+		function(result)
+		{
+			var whitelist = result.whitelist;
+
+			// Get the current tab
+			chrome.tabs.query(
+				{
+					currentWindow: true,
+					active: true
+				},
+				function (tabs)
+				{
+					var currentPage = urlDomain(tabs[0].url);
+
+					// Find the index of this domain in the whitelist
+					var index = whitelist.indexOf(currentPage);
+
+					// And remove that from the array
+					if(index > -1)
+					{
+						whitelist.splice(index, 1);
+					}
+
+					// Save the modified whitelist
+					chrome.storage.sync.set(
+						{
+							'whitelist': whitelist
+						},
+						function()
+						{
+							setRemoved();
+						}
+					);
+				}
+			);
+		}
+	);
+});
+
+/**
+ * Function for setting styles when domain is added to the whitelist (or is already
+ * on the whitelist).
+ */
+function setAdded()
+{
+	$('#add').html('&#10004; Added to whitelist');
+	$('#add').prop('disabled', true);
+	$('#add').css('color', 'green');
+
+	$('#remove').css('display', 'inline');
+}
+
+/**
+ * Function for setting styles when domain is removed from the whitelist.
+ */
+function setRemoved()
+{
+	$('#add').html('Add current domain to whitelist');
+	$('#add').prop('disabled', false);
+	$('#add').css('color', 'black');
+
+	$('#remove').css('display', 'none');
+}
 
 // Add a link to the options page
 $('#optionsLink').attr('href', chrome.extension.getURL("html/options.html"));
