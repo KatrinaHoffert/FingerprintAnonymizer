@@ -60,8 +60,13 @@ function run(listedStatus)
 				window.location.href);
 		}
 
-		// There's nothing actually here because none of our injected changes
-		// worked! The rest of this is proof of concept.
+		//  Possibly a way to inject javascript directly into the page
+		var injectedCode = ['window.navigator = null;	window.navigator = {};'];
+
+		var script = document.createElement('script');
+		script.textContent = injectedCode;
+		(document.head||document.documentElement).appendChild(script);
+		script.parentNode.removeChild(script);
 	}
 	else
 	{
