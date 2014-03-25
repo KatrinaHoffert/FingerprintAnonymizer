@@ -131,18 +131,12 @@
 % Available plugins
 \begin{frame}[fragile,t]{Available plugins}
 	\begin{itemize}
-		\item Browsers use plugins to extend functionality for the user
-		\item A huge population of plugins/extensions are available that use Javascript
-		\item Aside from font detection, plugins/extensions are the largest source for fingerprints
-		\item Browsers store information about the plugins in an array that is accessible by outside scripts
-		\item Traversing this array can give away all the plugins that the user currently has installed
+		\item Browsers use plugins to extend functionality
+		\item Aside from font detection, plugins are the largest source for fingerprints
+		\item Browsers store information about the plugins in an array that is accessible to outside scripts
+		\item Enumerating this array is useful for fingerprinting
 		\item These plugins can also be specifically targeted by name and version if need be (i.e. 'Silverlight Plug-In', 'Quicktime Plug-in 7.73')
-		\item Can also extract MIME types
-		\item How do we prevent access to this array?
-			\begin{itemsize}
-				\item Inject a new script when the page loads that sets the plugin array to practically NULL
-				\item This avoids the Chrome sandboxing limitation
-				\item Greatly decreases the fingerprint 
+		\item Thwarted by injecting a script that removes access to the plugins array
 	\end{itemize}
 \end{frame}
 
