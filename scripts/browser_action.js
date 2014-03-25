@@ -80,6 +80,7 @@ $('#add').click(function(){
 						function()
 						{
 							setAdded();
+							chrome.tabs.reload();
 						}
 					);
 				}
@@ -127,6 +128,7 @@ $('#remove').click(function(){
 						function()
 						{
 							setRemoved();
+							chrome.tabs.reload();
 						}
 					);
 				}
