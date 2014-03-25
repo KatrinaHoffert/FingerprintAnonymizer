@@ -90,3 +90,34 @@ setInterval(function(){
 
 	console.log(JSON.stringify(whitelist))
 }, 1000);
+
+/**
+ * Check if the whitelist has been saved. If this is the first time the
+ * extension is being used and no sites have been saved to the whitelist, then
+ * it does not yet exist in local storage and actions on it will result in
+ * attempting to access non-existant parameter. To prevent this, we will save
+ * an empty array into the whitelist if it is empty. This only happens once,
+ * when the background script is loaded for the first time (likely when the
+ * browser starts).
+ */
+chrome.storage.sync.get(
+	'whitelist',
+	function(result)
+	{
+		var whitelist = result.whitelist;
+
+		if(whitelist === undefined)
+		{
+			// Save an empty array as the whitelist
+			chrome.storage.sync.set(
+				{
+					'whitelist': []
+				},
+				function()
+				{
+					console.log("It's a first run: setting the whitelist as empty.")
+				}
+			);
+		}
+	}
+);
