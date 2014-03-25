@@ -201,18 +201,8 @@
 			\item Browsers are beginning to implement features to prevent mass gathering of information
 			\item Firefox, for example, no longer allows enumeration of plugins (but you can still detect individual plugins)
 		\end{itemize}
-		\item Many JavaScript properties are accessed as parameters rather than by functions
-		\item This is a shortfall of the language, which does not provide control over visibility
-	\end{itemize}
-\end{frame}
-
-% Drawbacks
-\begin{frame}[fragile,t]{Drawbacks}
-	\begin{itemize}
-		\item Thus, while we could block access to a parameter, we could not change the behavior of accessing the parameter
-		\item Our original goal was to alert the user when a page appears to be collecting too much information
-		\item We could only silently thwart the fingerprinting page -- they get nothing (but neither do legitimate pages)
 		\item Chrome sandboxes extensions. In order to modify JS variables, we had to make our injected content script further inject code into the page's Document Object Model (DOM)
+		\item Some pages must be whitelisted to work
 	\end{itemize}
 \end{frame}
 
