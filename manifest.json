@@ -5,7 +5,6 @@
 	"description": "Removes identifying information to reduce or prevent browser fingerprinting.",
 	"version": "1.0",
 	"permissions": [
-		"background",
 		"webRequest",
 		"webRequestBlocking",
 		"storage",

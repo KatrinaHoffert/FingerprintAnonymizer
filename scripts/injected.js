@@ -60,15 +60,8 @@ function run(listedStatus)
 				window.location.href);
 		}
 
-		// *******************************************************************
-		// ************* TODO: All disabling code goes here ******************
-		// *******************************************************************
-
-		// Prevent access to plugin info
-		// TODO: Backup window.navigator
-		window.navigator = null;
-		window.navigator = {};
-		// TODO: Recreate window.navigator
+		// There's nothing actually here because none of our injected changes
+		// worked! The rest of this is proof of concept.
 	}
 	else
 	{
