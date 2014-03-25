@@ -109,7 +109,7 @@
 % Available fonts
 \begin{frame}[fragile,t]{Available fonts}
 	\begin{itemize}
-		\item Browser fonts can be incredibly identifying because most people have a unique set of fonts installed
+		\item Browser fonts can be incredibly identifying because many users have a somewhat unique set of fonts (often installed by other applications)
 		\item Clever and varying techniques using Javascript can be used to accomplish this
 		\item Primary method we tried to break was measuring font width/height
 		\item 2 Approaches to the problem:
@@ -117,7 +117,14 @@
 				\item Override the specific functions that measure fonts
 				\item Override or block common DOM methods used when measuring fonts
 			\end{itemize}
-		\item Problems arise with page load times and overriding DOM methods	
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,t]{Available fonts}
+	\begin{itemize}
+		\item Problems arise with page load times and overriding DOM methods
+		\item In the case of panopticlick, Java and Flash were used to try and detect fonts (much easier and faster when fonts can be enumerated rather than having to check the existence from a very large list)
+		\item Thus, the use of Flashblock and preventing Java applets from running is the most useful approach against sites that use installed fonts for fingerprinting
 	\end{itemize}
 \end{frame}
 
@@ -132,13 +139,12 @@
 % Other fingerprinting threats
 \begin{frame}[fragile,t]{Other fingerprinting threats}
 	\begin{itemize}
-		\item Flash is an effective and very common method to detect fonts
-		\item Panopticlick uses Flash for it's font detection
-		\item To prevent these, there are extension like Flashblock, or Ghostery
-		\item You can also change settings in your Flash install
+		\item Flash is an effective and very common method to detect fonts (and possibly other information about the system)
+		\item Preventable by changing settings in Flash
 		\begin{itemize}
-			\item File: mms.cfg Line: DisableDeviceFontEnumeration = 1
+			\item File: \texttt{mms.cfg} \\ Line: \texttt{DisableDeviceFontEnumeration = 1}
 		\end{itemize}
+		\item To prevent these, there are extension like Flashblock
 		\item Fingerprinting can be combined with the approximate geographical location that an IP address tells us. This is not an accurate location, but neither are other fingerprinting techniques -- it's the combination that makes for accuracy
 	\end{itemize}
 \end{frame}
@@ -155,11 +161,30 @@
 \begin{frame}[fragile,t]{Putting it all together}
 	\begin{itemize}
 		\item A whitelist was implemented, which the user could add domains for which the blocking is not activated
-		\item The user can manually add regex for matching domains to the whitelist in the extension's options page
+		\item The user can manually add domains to the whitelist in the extension's options page
 		\item We also implemented a browser action (a button in the browser's main toolbar that opens a prompt) to add the current domain to the whitelist
 		\item Rewriting the HTTP headers is done for all pages
-		\item \textcolor{red}{TODO: mention end result (panopticlick results)}
 	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,t]{Results}
+	Panopticlick measures the data collected in terms of ``one in x browsers'' having certain features
+	
+	\begin{table}[h]
+	\centering
+	\begin{tabular}{>{\scriptsize}r|>{\scriptsize}r|>{\scriptsize}r}
+		\textbf{Parameter} & \textbf{Before} & \textbf{After} \\
+		\hline
+		User Agent & 2042.95 & 2042.95 \\
+		\textcolor{red}{HTTP\_ACCEPT Headers} & \textcolor{red}{22704.77} & \textcolor{red}{39.95} \\
+		\textcolor{red}{Browser Plugin Details} & \textcolor{red}{799203.2} & \textcolor{red}{825.63} \\
+		Time Zone & 30.76 & 30.76 \\
+		Screen Size and Color Depth & 19.41 & 19.41 \\
+		\textcolor{red}{System Fonts} & \textcolor{red}{1998008} & \textcolor{red}{6.37} \\
+		Are Cookies Enabled? & 1.35 & 1.35 \\
+		Limited Supercookie test & 1.9 & 1.9
+	\end{tabular}
+	\end{table}
 \end{frame}
 
 % Drawbacks
@@ -172,28 +197,18 @@
 			\item Browsers are beginning to implement features to prevent mass gathering of information
 			\item Firefox, for example, no longer allows enumeration of plugins (but you can still detect individual plugins)
 		\end{itemize}
-		\item Chrome extensions are sandboxed. If we modify JavaScript objects in our content script, they won't be modified on the actual page (unlike Firefox)
 		\item Many JavaScript properties are accessed as parameters rather than by functions
+		\item This is a shortfall of the language, which does not provide control over visibility
 	\end{itemize}
 \end{frame}
 
 % Drawbacks
 \begin{frame}[fragile,t]{Drawbacks}
 	\begin{itemize}
-		\item While parameters can be overridden, you can't change the behaviour of accessing parameters, and thus we cannot tell if a parameter is accessed
-		\item This provides a compelling reason to use getters and setters instead of direct variable access (although JavaScript lacks visibility modifiers)
-		\item The browser itself prevents some types of changes in the name of security -- and thus \textbf{no} extension can make such modification (sandboxing is an example)
-		\item Thus, some security concerns outside the scope of extensions -- up to the browser to implement them
-	\end{itemize}
-\end{frame}
-
-% Extension details
-\begin{frame}[fragile,t]{Our extension}
-	\begin{itemize}
-		\item Because of the various drawbacks, our extension was largely unsuccessful
-		\item The sandboxing of scripts and frequent use of parameters instead of functions for accessing data were main reasons for this
-		\item However, we did achieve a working extension which allowed site detection, supported a whitelist of sites, and generalized sent HTTP headers
-		\item \textcolor{red}{TODO: Add pictures - I got this one - Mike}
+		\item Thus, while we could block access to a parameter, we could not change the behavior of accessing the parameter
+		\item Our original goal was to alert the user when a page appears to be collecting too much information
+		\item We could only silently thwart the fingerprinting page -- they get nothing (but neither do legitimate pages)
+		\item Chrome sandboxes extensions. In order to modify JS variables, we had to make our injected content script further inject code into the page's Document Object Model (DOM)
 	\end{itemize}
 \end{frame}
 
@@ -203,15 +218,15 @@
 		\item Browser fingerprinting has potential of tracking browsers based on their discernible features
 		\item Features that are largely unique are much more trackable
 		\item Preventing enumeration of these features is the best defence against fingerprinting
-		\item Due to limitations of the JavaScript language and browser extension capabilities, preventing enumeration is beyond the scope of extensions -- up to browser creators to implement
+		\item Due to limitations of the JavaScript language and browser extension capabilities, preventing enumeration would be better done by the browser
 		\item Preventing detection of fonts and plugins hinders legitimate sites -- better to prevent mass detection
 	\end{itemize}
 \end{frame}
 
 % Git link
 \begin{frame}[plain]
-	\begin{block}{Project source code available on GitHub}
-		https://github.com/MikeHoffert/FingerprintAnonymizer
+	\begin{block}{Demo}
+		Let's now look at a demo of our project
 	\end{block}
 \end{frame}
 \addtocounter{framenumber}{-1}
