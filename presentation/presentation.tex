@@ -63,7 +63,7 @@
 % Browser fingerprint
 \begin{frame}[fragile,t]{Browser fingerprint}
 	\begin{itemize}
-		\item A browser fingerprint is a way to identify a specific browser, based an unique identifiers that is holds
+		\item A browser fingerprint is a way to identify a specific browser, based on a set of unique identifiers that it holds
 		\item Some features include things like:
 		% I removed cookies from here because they're so useless at fingerprinting - Mike
 		\begin{itemize}
@@ -122,7 +122,7 @@
 
 \begin{frame}[fragile,t]{Available fonts}
 	\begin{itemize}
-		\item Problems arise with page load times and overriding DOM methods
+		\item Problems arise with both overriding user-defined functions and overriding DOM methods
 		\item In the case of panopticlick, Java and Flash were used to try and detect fonts (much easier and faster when fonts can be enumerated rather than having to check the existence from a very large list)
 		\item Thus, the use of Flashblock and preventing Java applets from running is the most useful approach against sites that use installed fonts for fingerprinting
 	\end{itemize}
