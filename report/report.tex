@@ -209,7 +209,34 @@ For the purpose of this research project, however, we believe that our implement
 
 \section{Technical components}
 \subsection{Approaches and methods}
-\textcolor{red}{TODO: How did we approach the project. Code, browser, extension, etc. The tools we used. Mention the use of panopticlick as a driving tool, particularly in checking our results.}
+Since our project was driven by a Chrome extension, we were limited to using technologies supported for Chrome extensions, which is largely just JavaScript, with additional functionality provided by various APIs only available for Chrome extensions.
+
+The project had five practical features:
+\begin{itemize}
+	\item It blocked access to the plugins array
+	\item It modified the HTTP\_ACCEPT headers
+	\item It provided a whitelist, for which whitelisted domains did not have access to fingerprinting information blocked
+	\item It provided access to this whitelist via a settings page
+	\item And it allowed easily adding and removing the current domain to the whitelist via a browser action
+\end{itemize}
+
+It was originally intended that we would also block font-detection, but it was discovered that Panopticlick performs font detection with Flash, for which there are other tools and techniques for preventing font enumeration (although dealing with the security concerns of Flash is beyond the scope of this project). It is also possible to detect fonts by means of setting the font of an element of known proportions and testing for change in proportions, but this ultimately proved too difficult to detect and prevent.
+
+\textcolor{red}{TODO: Elaborate on why font detection was too difficult.}
+
+To block access to the plugins array, we removed the plugins array entirely. In order to do this, we had to backup all the functions and properties of the \texttt{window.navigator} object into a new object, with the exception of the plugins property. We then overwrote the navigator object with this backup object. Thus, we essentially recreated the navigator object minus the plugins array.
+
+This was a less than optimal solution, as sites that require access to the plugins array will silently fail, and the user must manually add the site to the whitelist. A more optimal solution was later made clear by the means of a getter for the plugins array, which could be used to limit access and alert the user to such access. However, this is also limited by the fact that Chrome's extension sandboxing forced us to inject the JavaScript to overwrite the plugins array in such a way that the script is no longer considered part of the extension (and thus no longer sandboxed). Unfortunately, that also means that the injected script cannot communicate with the extension. This would not be a problem is extensions were not sandboxed.
+
+To modify the HTTP\_ACCEPT headers, we made use of Chrome's webRequest API\cite{webrequest}, which provided the means of adding listeners to modify HTTP headers before they were sent. The implementation, therefore, merely had to find the correct header and set it to a more general value. Some study with various browsers and different values determined that Firefox's default HTTP\_ACCEPT headers were the most optimal. Sending merely en-US as an accepted language was far more general than a browser that accepts both en-US and en-CA.
+
+Further, to the extent of the authors' knowledge, there are very few, if any, websites that use the accepted language headers in deciding what content to send. It is far more common for sites to use other techniques for determining the language to display (in particular, sites typically ask the user for their preferred language). The accepted languages header isn't generally accurate, since it's not easily user configurable. As well, in the context of websites, Canadian and American English are not typically treated as different languages.
+
+To allow sites to access the information that our extension blocks, we provided a domain whitelist. Domains which are on the whitelist are not subject to the limitations imposed by the extension. That is, the HTTP\_ACCEPT headers and the \texttt{window.navigator} object are unchanged for sites which are on the whitelist. The whitelist is implemented by use of Chrome's storage API\cite{storage}, which allowed for storing a JavaScript array in a manner that can be consistently accessed and provides means of utilizing Chrome's account syncing feature.
+
+This whitelist can be viewed and modified in an easy fashion via a created settings page. \textcolor{red}{TODO: Add picture of settings page.}
+
+To create a more user-friendly experience, we also implemented a browser action (which is an icon on the browser's main toolbar that opens a popup window when clicked). This browser action provides options for quickly adding and removing the current domain from the whitelist. \textcolor{red}{TODO: Add picture of browser action - both with and without the current page being on the whitelist.}
 
 \subsection{Progress and effort}
 \textcolor{red}{TODO: How many of our goals did we meet? What places failed but we applied effort on? Particular parts we're proud of and are central to project, etc?}
@@ -242,6 +269,12 @@ For the purpose of this research project, however, we believe that our implement
 
 \bibitem{github}
   Fingerprint Anonymizer repository on GitHub: \url{https://github.com/MikeHoffert/FingerprintAnonymizer}
+
+\bibitem{webrequest}
+  Chrome webRequest: \url{http://developer.chrome.com/extensions/webRequest}
+  
+\bibitem{storage}
+  Chrome storage: \url{http://developer.chrome.com/extensions/storage}
 
 \end{thebibliography}
 
