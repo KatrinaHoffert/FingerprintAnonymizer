@@ -37,6 +37,9 @@
 % Image support
 \usepackage{graphicx}
 
+% For advanced table options
+\usepackage{array}
+
 % Font improvements
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -65,7 +68,7 @@
 	\vspace*{\fill}
 		\begin{center}
 			{\Huge{\textbf{Internet Anonymity}}} \\
-			\bigskip
+			{\large{\textbf{Not just for the bad guys}}} \\
 			\bigskip
 			\bigskip
 			\bigskip
@@ -93,7 +96,7 @@
 \begin{abstract}
 Internet anonymity is important because it can protect individuals from oppressive censorship and those in positions where tying an identity to their online presence could cause harm to come to them. This project focused on one particular method of undermining anonymity: the browser fingerprint. Browsers are fingerprinted by gathering information about the browser. The combination of this information is often reasonably unique, and can thus be used to track that browser.
 
-Our project was to undermine the harvesting of the types of information which are typically used to create the browser fingerprint. In particular, we found that preventing enumeration (and mass detection) of fonts and plugins to help generalize the browser. Setting the HTTP language headers to be as general as possible also helps reduce fingerprinting. The Panopticlick tool, provided by the EFF, was used in gauging the effects of our project.\cite{panopticlick}
+Our project was to undermine the harvesting of the types of information which are typically used to create the browser fingerprint. In particular, we found that preventing enumeration (and mass detection) of fonts and plugins to help generalize the browser. Setting the HTTP language headers to be as general as possible also helps reduce fingerprinting. The Panopticlick\cite{panopticlick} tool, provided by the EFF, was used in gauging the effects of our project.
 \end{abstract}
 
 % Table of contents
@@ -159,7 +162,9 @@ One major obstacle that we encountered mid-way through our project's development
 Thankfully, we found a solution to get around Chrome's sandboxing, namely by inserting a script element into the DOM of the page, containing the injected script that had to be run in the same scope as the rest of the page. Thus, from this injected code, we were able to globally modify the \texttt{window.navigator} object, preventing plugin enumeration.
 
 \subsection{Process}
-\textcolor{red}{TODO: From an SE perspective. I guess it was mostly ``concurrent engineering''. Not much of a formal process... anyone have a better description?}
+The software process followed in this project was a combination of \textit{concurrent engineering} (breaking the project into subtasks that group members could tackle individually and collaboratively integrate) and iterative design. Portions of the project borrowed Agile development methods, including scrum-like meetings and extreme programming-like continuous integration.
+
+\textcolor{red}{TODO: Elaborate?}
 
 \section{Control}
 \subsection{Documentation}
@@ -170,7 +175,18 @@ The project is also largely results based, with Panopticlick being used as the d
 \textcolor{red}{TODO: I feel this is rather sparse, or perhaps misunderstood? Anyone have better ideas for this section?}
 
 \subsection{Planning}
-\textcolor{red}{TODO: Mention how we identified core tasks (plugins, fonts, etc) and divided them up. Also some sharing of tasks, meetings, and so on.}
+Once we had a grasp on the intended purpose and scope of the extension, the general plan was to divide the project into core tasks that each group member could tackle individually on our own time and collaborate on the semi-finished product. In particular, we divided the project amongst four people in the following way:
+
+\begin{itemize}
+	\item Plugin detection
+	\item Font detection
+	\item Language headers and background script
+	\item Whitelist and Browser action
+\end{itemize}
+
+The division of tasks was based on estimates on the time to complete the task, which ended up being off and group members spread their efforts to other portions of the project. The outlines, bases, and skeleton of the project were created by one group member.
+
+To assist in collaboration, occasional in-person meetings were held to discuss the progress towards the project and related presentations. The bulk of communication, however, was handled over email.
 
 \subsection{Data gathering}
 Panopticlick was the dominant method of evaluating the effects of our extension. The tool calculated two useful numbers: an estimated bits of entropy provided by some identifying factor (eg, installed fonts, time zone, HTTP accept headers) and an estimated ``one in $x$ browsers has this value''. Obviously a more generic browser is more difficult to fingerprint (as you can't tell it apart from thousands of others), and thus, we want to minimize the value for how many browsers have a given value.
@@ -222,8 +238,6 @@ The project had five practical features:
 
 It was originally intended that we would also block font-detection, but it was discovered that Panopticlick performs font detection with Flash, for which there are other tools and techniques for preventing font enumeration (although dealing with the security concerns of Flash is beyond the scope of this project). It is also possible to detect fonts by means of setting the font of an element of known proportions and testing for change in proportions, but this ultimately proved too difficult to detect and prevent.
 
-\textcolor{red}{TODO: Elaborate on why font detection was too difficult.}
-
 To block access to the plugins array, we removed the plugins array entirely. In order to do this, we had to backup all the functions and properties of the \texttt{window.navigator} object into a new object, with the exception of the plugins property. We then overwrote the navigator object with this backup object. Thus, we essentially recreated the navigator object minus the plugins array.
 
 This was a less than optimal solution, as sites that require access to the plugins array will silently fail, and the user must manually add the site to the whitelist. A more optimal solution was later made clear by the means of a getter for the plugins array, which could be used to limit access and alert the user to such access. However, this is also limited by the fact that Chrome's extension sandboxing forced us to inject the JavaScript to overwrite the plugins array in such a way that the script is no longer considered part of the extension (and thus no longer sandboxed). Unfortunately, that also means that the injected script cannot communicate with the extension. This would not be a problem is extensions were not sandboxed.
@@ -239,27 +253,82 @@ This whitelist can be viewed and modified in an easy fashion via a created setti
 To create a more user-friendly experience, we also implemented a browser action (which is an icon on the browser's main toolbar that opens a popup window when clicked). This browser action provides options for quickly adding and removing the current domain from the whitelist. \textcolor{red}{TODO: Add picture of browser action - both with and without the current page being on the whitelist.}
 
 \subsection{Progress and effort}
-\textcolor{red}{TODO: How many of our goals did we meet? What places failed but we applied effort on? Particular parts we're proud of and are central to project, etc?}
+Our extension succeeded in the ultimate goal of finding working techniques for preventing browser fingerprinting. However, some of techniques have limitations, and due to time constraints, we did not succeed in our practical goal of alerting the user to sites that are performing fingerprinting techniques.
+
+We were able to successfully prevent access to the installed plugins, as well as reduce the uniqueness of our HTTP\_ACCEPT headers. However, we were not able to prevent the detection of fonts. \textcolor{red}{TODO: Elaborate on why font detection was too difficult. Be short and sweet here, save the bulk of the elaboration for the next section.}
+
+We did, however, find that font detection is typically done with Flash, which is the approach used by Panopticlick. We found that the FlashBlock extension\cite{flashblock} is particularly effective in preventing Flash from harvesting data. It's also possible to prevent font enumeration in your Flash configuration by setting \texttt{DisableDeviceFontEnumeration = 1} in file \texttt{mms.cfg}.
+
+\textcolor{red}{TODO: What else?}
 
 \subsection{Difficulties and limitations}
-\textcolor{red}{TODO: Hard parts, stuff we couldn't do, and limitations (particularly those created by Chrome and JS).}
+As previously mentioned, font detection was the main difficulty faced by the project. \textcolor{red}{TODO: In-depth explanation of why font detection and thwarting failed.}
+
+The sandboxing of Chrome extensions was a major limitation. We began development without knowing this fact and revelation of this sandboxing almost prevented the anti-plugin-detection code from working. In order to get around this limitation, our extension created a new script element with the code we intended to inject and inserted that element into the DOM of the page. This allows the injected script to be run in the same scope as other JavaScript in the page (necessary to overwrite the \texttt{window.navigator} object), but comes with the side-effect of the code no longer being able to interact with the extension (or at least, not directly).
+
+It was thought for the majority of development time that since most JavaScript information was accessed via properties (versus functions), that it would be impossible to manipulate \textit{behaviour} of accessing these properties. This ultimately lead us to implement the extension in such a way that the user is unaware when sites silently fail when attempting to access the plugins array. It later became clear that JavaScript does allow the implementation of a ``getter'' function that is automatically called when accessing properties. Due to time constraints, this could not be integrated into our implementation.
+
+\textcolor{red}{TODO: Ya'all have any other difficulties?}
 
 \section{Results}
 \subsection{Results and outcomes}
 \label{subsec:results}
-\textcolor{red}{TODO: Put the numbers from the slides here. Also mention the overall effectiveness and other approaches.}
+The project was a general success, as we succeeded in finding methods of heavily diminishing the uniqueness of our browser, and thus making the browser more difficult to fingerprint. We expect that the effects would be even more pronounced for a hypothetical case where many users are applying these changes.
+
+The results of using Panopticlick before and after activating our extension are shown in table \ref{tab:resultTable}. The fields which we attempted to change are shown in red. The numbers shown represent the number for ``one in $x$ browsers has this value''.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|r|r|r|}
+		\hline
+		\textbf{Parameter} & \textbf{Before} & \textbf{After} \\
+		\hline
+		User Agent & 2042.95 & 2042.95 \\
+		\textcolor{red}{HTTP\_ACCEPT Headers} & \textcolor{red}{22704.77} & \textcolor{red}{39.95} \\
+		\textcolor{red}{Browser Plugin Details} & \textcolor{red}{799203.2} & \textcolor{red}{825.63} \\
+		Time Zone & 30.76 & 30.76 \\
+		Screen Size and Color Depth & 19.41 & 19.41 \\
+		\textcolor{red}{System Fonts} & \textcolor{red}{1998008} & \textcolor{red}{6.37} \\
+		Are Cookies Enabled? & 1.35 & 1.35 \\
+		Limited Supercookie test & 1.9 & 1.9 \\
+		\hline
+	\end{tabular}
+	\caption{The results of applying our extension}
+ 	\label{tab:resultTable}
+\end{table}
+
+Note that preventing listing the system fonts is done via FlashBlock. However, FlashBlock does not have to actually be enabled for these results, due to the fact that Panopticlick is attempting to access a non-existent plugins array, breaking their script and preventing the communication of fonts from occuring. However, in practice, FlashBlock would typically be required.
+
+As the table shows, we caused a decrease of 568 times for the HTTP\_ACCEPT headers, 968 times for browser plugin details, and 313,659 times for system fonts. This massive decrease in uniqueness shows that the original data being sent was strongly identifying, and the modified information, mostly flat-out denial of information, is much more general.
 
 \subsection{Progress and failures}
-\textcolor{red}{TODO: Progress stuff from previous section, with emphasis on the implications our progress had on the results. And failures are straightforward enough (in particular, inability to truly let the user know when fingerprinting is going on. Adding sites to the whitelist is entirely up to the user, we couldn't provide advice. As a result, some sites fail silently. I, for example, cannot load gmail's inbox without adding the site to the whitelist.}
+The project made great progress in preventing fingerprinting, as demonstrated by the results in table \ref{tab:resultTable}. This has strong implications, as if similar configurations could be applied to a larger set of internet users, then browser fingerprinting could become an entirely impractical method of tracking.
+
+However, the project did not produce a practical result. The produced extension has several flaws, the largest being that the user is not alerted to incidents where the extension blocks access to information. For example, if a site depends on being able to access the plugins array, the site may break due to the extension blocking access to the plugins array. Since the user is unaware of this silent failure, it could lead to undesired behavior or the user believing that the site is flawed. A more optimal implementation would strictly prompt the user rather than outright block the offending website.
+
+As a result, the plugin breaks several websites. For example, Gmail's inbox will not load in standard view unless the site is added to the whitelist. The user is never alerted to the need to add the site to the whitelist, and in fact the site will merely seem to load forever.
+
+As a result, \textbf{the created extension should be considered proof-of-concept only}.
 
 \subsection{Analysis}
-\textcolor{red}{TODO: General summary of results. Perhaps deeper look at other areas? Ideas here?}
+In summation, browser fingerprinting uses seemingly innocuous information in a way that can permit tracking of the browser. It is important to note that browser fingerprinting tracks browsers, not the user. As well, not all fields represented in table \ref{tab:resultTable} are practical for use in fingerprinting. For example, with Chrome's rapid releases, user agents change very frequently, making the fingerprint valid for short periods of time. In general, browser fingerprints are not a useful way of tracking a browser over long periods of time, since there's a large number of fields that are subject to change.
+
+It is also questionable how valuable tracking a browser can be. Advertisers typically desire to track individuals, not browsers, which could be used by a number of individuals. Despite that, for very short periods of time, the browser fingerprint can be highly accurate for tracking users across multiple sites, using information that the browser voluntarily gives up.
+
+In addition to the information gather by Panopticlick, trackers could use the approximate location tied to an IP address to further create a more accurate browser fingerprint. While geoIP is by no means accurate, it does not need to be in a fingerprint, where it merely serves as yet another consistent piece of information about you. Protecting against this is more difficult. The most effective line of defence would be to use a proxy service that would result in a random proxy being used for different sites. An example would be to use Tor\cite{tor}, which occasionally semi-randomizes the exit nodes used.
+
+\textcolor{red}{TODO: Perhaps deeper look at other areas? Ideas here?}
 
 \section{Recommendations for further study}
-\textcolor{red}{TODO: Recommendations for how browsers could implement our functionality (but better). Chrome shouldn't allow plugin enumeration, and should warn users if too many plugin details are collected. Also, Flash shouldn't be able to enumerate fonts without user permission. Basically, ask the user more.}
+It is the opinion of the authors that many of the features created by our extension could be better applied by the browsers. As an intermediate step, Chrome should consider taking the approach that Firefox and Internet Explorer have taken regarding the plugins array: don't allow it to be enumerated. However, as Panopticlick demonstrates, it is insufficient to merely prevent enumeration. It is also necessary that we prevent mass collection of plugin data. This can be done by limiting the number of requests for plugin information that a website can make before requiring user permission to continue.
 
+As well, the choice of sending en-CA as an accepted language in the HTTP headers is made by Chrome (Firefox on the same machine does not add this to the HTTP headers). Given how the accepted languages are rarely used by websites and how the en-CA language is typically unused compared to en-US, Chrome should drop the language from its HTTP headers.
 
-\textcolor{red}{TODO: Read through this document VERY carefully and find more citations for dubious claims.}
+Flash should consider disabling font enumeration by default, and prompt the user for permission to perform font enumeration. This would prevent the usage of Flash for font detection. Further, browsers could consider requiring explicit user permission to run any plugin by default, including Flash. Similar behavior is practically already being done to Java applets for security reasons. It can be applied in similar fashion to other plugins. This makes plugins opt-in instead of opt-out.
+
+In summation, it is the belief of the authors that users are being left out of the loop and security could be improved by increasing transparency -- prompt the user for sites that ask for too much information. In order for this to be effective, however, users will need to be educated in the risks of tracking and online privacy.
+
+\textcolor{red}{\textbf{TODO: Read through this document very carefully and find more citations for dubious claims. Also, make whatever changes you think benefit this document. Proof-read, etc.}}
 
 % Bibliography
 \begin{thebibliography}{0}
@@ -275,6 +344,12 @@ To create a more user-friendly experience, we also implemented a browser action 
   
 \bibitem{storage}
   Chrome storage: \url{http://developer.chrome.com/extensions/storage}
+  
+\bibitem{flashblock}
+  FlashBlock in the Chrome WebStore: \url{https://chrome.google.com/webstore/detail/flashblock/gofhjkjmkpinhpoiabjplobcaignabnl?hl=en}
+  
+\bibitem{tor}
+  The Tor project: \url{https://www.torproject.org/}
 
 \end{thebibliography}
 
