@@ -1,0 +1,179 @@
+% Regular, article-style document with 12pt font and A4 sized paper
+\documentclass[12pt,a4paper]{article}
+
+% UTF-8 support
+\usepackage[utf8]{inputenc}
+
+% Basic packages for formulas, symbols, etc
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{multirow}
+
+% Hyperlink support
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks   = true, % Colours links instead of ugly boxes
+  urlcolor     = blue, % Colour for external hyperlinks
+  linkcolor    = blue, % Colour of internal links
+  citecolor    = black % Colour of citations
+}
+
+% Use supertext citations
+\usepackage[superscript]{cite}
+
+% Clean paragraph spacing -- removing this for now. Possibly re-introduce it later? - Mike
+%\usepackage{parskip}
+
+% Use 1 inch margins
+\usepackage{fullpage}
+
+% Hyperlink support
+\usepackage{hyperref}
+
+% Support for wrapped images
+\usepackage{wrapfig}
+
+% Image support
+\usepackage{graphicx}
+
+% Font improvements
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% For description sections (indentable lists)
+\usepackage{enumitem}
+
+% Custom template for paragraphs in tables, which don't leave spaces between
+% paragraphs. Add this to the end of a paragraph to force a nice little space.
+\newcommand\tablepar{\vspace{0.25cm}\newline}
+
+% Header and footer styles (page number centered at the bottom)
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+% Makes the tables break over multiple pages.
+\usepackage{longtable}
+
+\begin{document}
+
+% No page numbering until we get to the main section
+\pagenumbering{gobble}
+
+% Title page
+\begin{titlepage}
+	\vspace*{\fill}
+		\begin{center}
+			{\Huge{\textbf{Internet Anonymity}}} \\
+			\bigskip
+			\bigskip
+			\bigskip
+			\bigskip
+			\bigskip
+			{\Large{\textbf{Submitted by: } \\
+			Group 12}} \\
+			\begin{description}[labelindent=5cm]
+				\item Mike Hoffert - mlh374
+				\item Jeff Pereyma - jdp037
+				\item Kari Vass - kdv504
+				\item Nathan Abramyk - nsa901
+			\end{description}
+			\bigskip
+			\bigskip
+			\bigskip
+			\bigskip
+			\Large{\textbf{Date:} \\
+			\today}
+		\end{center}
+	\vspace*{\fill}
+\end{titlepage}
+\clearpage
+
+% Abstract
+\begin{abstract}
+Internet anonymity is important because it can protect individuals from oppressive censorship and those in positions where tying an identity to their online presence could cause harm to come to them. This project focused on one particular method of undermining anonymity: the browser fingerprint. Browsers are fingerprinted by gathering information about the browser. The combination of this information is often reasonably unique, and can thus be used to track that browser.
+
+Our project was to undermine the harvesting of the types of information which are typically used to create the browser fingerprint. In particular, we found that preventing enumeration (and mass detection) of fonts and plugins to help generalize the browser. Setting the HTTP language headers to be as general as possible also helps reduce fingerprinting. The Panopticlick tool, provided by the EFF, was used in gauging the effects of our project.\cite{panopticlick}
+\end{abstract}
+
+% Table of contents
+\setcounter{tocdepth}{2}
+\tableofcontents
+\clearpage
+
+% Page numbering starts here. We begin using the "fancy" page style to allow us to
+% have "page x of y" in the footer. We also have to remove the default headers.
+\pagenumbering{arabic}
+\pagestyle{fancy}
+\fancyhf{} % Remove the default text
+\renewcommand{\headrulewidth}{0pt} % Remove the header bar
+\cfoot{\thepage\ of \pageref{LastPage}} % New footer content
+
+% Various content sections. \section denotes level 1 headers, \subsection is level 2,
+% \subsubsection is level 3. All sections automatically added to ToC.
+\section{Genesis}
+\subsection{Approach and early planning}
+\textcolor{red}{TODO: Discuss why we chose the topic, very early planning (eg, the array of topics we considered)}
+
+\subsection{Pre-conceptions}
+\textcolor{red}{TODO: Early thoughts we had. Including misconceptions such as assuming font detection already allowed enumeration, that everything was done in JS, etc}
+
+\section{Initialization}
+
+\subsection{Ideas}
+\textcolor{red}{TODO: Early ideas for project}
+
+\subsection{Goals}
+\textcolor{red}{TODO: End goals for the project (in particular, letting users know when fingerprinting is going on), ultimately, however: just stopping fingerprinting}
+
+\subsection{Obstacles}
+\textcolor{red}{TODO: Chrome extension and JS limitations, new ground for us, etc}
+
+\subsection{Process}
+\textcolor{red}{TODO: From an SE perspective. I guess it was mostly ``concurrent engineering''. Not much of a formal process... anyone have a better description?}
+
+\section{Control}
+\subsection{Documentation}
+\textcolor{red}{TODO: Informal, results based. Project code is the documentation.}
+
+\subsection{Planning}
+\textcolor{red}{TODO: Mention how we identified core tasks (plugins, fonts, etc) and divided them up. Also some sharing of tasks, meetings, and so on.}
+
+\subsection{Data gathering}
+\textcolor{red}{TODO: How we identified relevant. What was the relevant data? In particular, fonts, plugins, and HTTP headers role in fingerprinting. Panopticlick is main tool.}
+
+\subsection{Analysis}
+\textcolor{red}{TODO: This is more of a meta-analysis of our approach and control, not the results. Basically, how effective was our data gathering, planning, and documentation? Where did we make strides and mistakes? In particular, mention sandboxing issues and workaround. JS language's tendency to use parameters rather than functions and how we didn't realize it's possible to apply a getter function to parameter access (I dunno about the rest of you, but I just learned this the other day).}
+
+\section{Technical components}
+\subsection{Approaches and methods}
+\textcolor{red}{TODO: How did we approach the project. Code, browser, extension, etc. The tools we used. Mention the use of panopticlick as a driving tool, particularly in checking our results.}
+
+\subsection{Progress and effort}
+\textcolor{red}{TODO: How many of our goals did we meet? What places failed but we applied effort on? Particular parts we're proud of and are central to project, etc?}
+
+\subsection{Difficulties and limitations}
+\textcolor{red}{TODO: Hard parts, stuff we couldn't do, and limitations (particularly those created by Chrome and JS).}
+
+\section{Results}
+\subsection{Results and outcomes}
+\textcolor{red}{TODO: Put the numbers from the slides here. Also mention the overall effectiveness and other approaches.}
+
+\subsection{Progress and failures}
+\textcolor{red}{TODO: Progress stuff from previous section, with emphasis on the implications our progress had on the results. And failures are straightforward enough (in particular, inability to truly let the user know when fingerprinting is going on. Adding sites to the whitelist is entirely up to the user, we couldn't provide advice. As a result, some sites fail silently. I, for example, cannot load gmail's inbox without adding the site to the whitelist.}
+
+\subsection{Analysis}
+\textcolor{red}{TODO: General summary of results. Perhaps deeper look at other areas? Ideas here?}
+
+\section{Recommendations for further study}
+\textcolor{red}{TODO: Recommendations for how browsers could implement our functionality (but better). Chrome shouldn't allow plugin enumeration, and should warn users if too many plugin details are collected. Also, Flash shouldn't be able to enumerate fonts without user permission. Basically, ask the user more.}
+
+% Bibliography
+\begin{thebibliography}{0}
+
+\bibitem{panopticlick}
+  Panopticlick: \url{https://panopticlick.eff.org/}
+
+\end{thebibliography}
+
+\end{document}
