@@ -162,17 +162,15 @@ One major obstacle that we encountered mid-way through our project's development
 Thankfully, we found a solution to get around Chrome's sandboxing, namely by inserting a script element into the DOM of the page, containing the injected script that had to be run in the same scope as the rest of the page. Thus, from this injected code, we were able to globally modify the \texttt{window.navigator} object, preventing plugin enumeration.
 
 \subsection{Process}
-The software process followed in this project was a combination of \textit{concurrent engineering} (breaking the project into subtasks that group members could tackle individually and collaboratively integrate) and iterative design. Portions of the project borrowed Agile development methods, including scrum-like meetings and extreme programming-like continuous integration.
-
-\textcolor{red}{TODO: Elaborate?}
+The software process followed in this project was a combination of \textit{concurrent engineering} (breaking the project into subtasks that group members could tackle individually and collaboratively integrate) and iterative design. Portions of the project borrowed Agile development methods, including scrum-like meetings and extreme programming-like continuous integration. We began by discussing objectives and defining the project in detail. After this research on the topic was done, and then collaborated on to split up tasks. Reoccurring meetings were held to discuss progress, new challenges and the next steps to take. After tackling individual tasks, group collaboration and development was done on the project as a whole to refine the quality of the project.
 
 \section{Control}
 \subsection{Documentation}
-The primary ``documentation'' of our project is the source code of our created Chrome extension, which illustrates the techniques we used in preventing access to fingerprinting information. The source code of our project is freely available on GitHub\cite{github}.
+Since our project was more technical than research based, the primary ``documentation'' of our project is the source code of our created Chrome extension, which illustrates the techniques we used in preventing access to fingerprinting information. The source code of our project is freely available on GitHub\cite{github}. Our code has documentation within it describing what it is doing and why.
 
 The project is also largely results based, with Panopticlick being used as the driving force in interpreting the effects of our extension. The results of our finished extension are mentioned in section \ref{subsec:results}.
 
-\textcolor{red}{TODO: I feel this is rather sparse, or perhaps misunderstood? Anyone have better ideas for this section?}
+Our methods, research, ideas, and results have been combined and documented solely in our report. 
 
 \subsection{Planning}
 Once we had a grasp on the intended purpose and scope of the extension, the general plan was to divide the project into core tasks that each group member could tackle individually on our own time and collaborate on the semi-finished product. In particular, we divided the project amongst four people in the following way:
@@ -255,14 +253,14 @@ To create a more user-friendly experience, we also implemented a browser action 
 \subsection{Progress and effort}
 Our extension succeeded in the ultimate goal of finding working techniques for preventing browser fingerprinting. However, some of techniques have limitations, and due to time constraints, we did not succeed in our practical goal of alerting the user to sites that are performing fingerprinting techniques.
 
-We were able to successfully prevent access to the installed plugins, as well as reduce the uniqueness of our HTTP\_ACCEPT headers. However, we were not able to prevent the detection of fonts. \textcolor{red}{TODO: Elaborate on why font detection was too difficult. Be short and sweet here, save the bulk of the elaboration for the next section.}
+We were able to successfully prevent access to the installed plugins, as well as reduce the uniqueness of our HTTP\_ACCEPT headers. However, we were not able to prevent the detection of fonts. We found the JavaScript techniques used for font detection were not specific enough to define them into a unique method. In fact, we concluded that Javascript is rarely used for font detection in the first place, because of the creative techniques required to accomplish this.
 
-We did, however, find that font detection is typically done with Flash, which is the approach used by Panopticlick. We found that the FlashBlock extension\cite{flashblock} is particularly effective in preventing Flash from harvesting data. It's also possible to prevent font enumeration in your Flash configuration by setting \texttt{DisableDeviceFontEnumeration = 1} in file \texttt{mms.cfg}.
+We found that font detection is typically done with Flash, which is the approach used by Panopticlick. We found that the FlashBlock extension\cite{flashblock} is particularly effective in preventing Flash from harvesting data. It's also possible to prevent font enumeration in your Flash configuration by setting \texttt{DisableDeviceFontEnumeration = 1} in file \texttt{mms.cfg}.
 
 \textcolor{red}{TODO: What else?}
 
 \subsection{Difficulties and limitations}
-As previously mentioned, font detection was the main difficulty faced by the project. \textcolor{red}{TODO: In-depth explanation of why font detection and thwarting failed.}
+As previously mentioned, font detection was the main difficulty faced by the project. We were specifically trying to thwart Javascript techniques. We discovered a method\cite{fontdetection} in which the site would inject a hidden span tag with a predefined string. The site would then measure both the height and width of the text, and from those measurements, they could compare them to a set of predefined fonts measured the same way. Right away it is easy to see there are major limitations to detecting this way. the biggest being that you are limited to a defined set of fonts to look for. The other drawback is that it is not one hundred percent accurate. In order to stop the detection using this method, two techniques were attempted. The first being to block the specific functions or scripts that to the detecting. This is an effective approach for our example, but does not work in the general case. In order for this technique to be effective, you would need to know the name of every script that does font detection. The next approach was to look for patterns within the DOM methods called when doing detection. In our example, every time font detection is done, a span tag is created. So what you could do is override the method that creates span tags, keep track of the number of span tags created, and block them if they exceed a threshold. The difficulty with this method is that even a site that is in fact safe, may be marked as fingerprinting. This would then result to incorrectly blocking these methods from happening, and would likely breka the functionality and design of the site. It is also generally frowned upon to override DOM methods, as you will often find unexpected activity and browser bugs appearing because of this technique.    
 
 The sandboxing of Chrome extensions was a major limitation. We began development without knowing this fact and revelation of this sandboxing almost prevented the anti-plugin-detection code from working. In order to get around this limitation, our extension created a new script element with the code we intended to inject and inserted that element into the DOM of the page. This allows the injected script to be run in the same scope as other JavaScript in the page (necessary to overwrite the \texttt{window.navigator} object), but comes with the side-effect of the code no longer being able to interact with the extension (or at least, not directly).
 
@@ -350,6 +348,9 @@ In summation, it is the belief of the authors that users are being left out of t
   
 \bibitem{tor}
   The Tor project: \url{https://www.torproject.org/}
+
+\bibitem{fontdetection}
+  Javascript font detection: \url{http://www.lalit.org/lab/javascript-css-font-detect/}
 
 \end{thebibliography}
 
