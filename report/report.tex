@@ -96,7 +96,7 @@
 \begin{abstract}
 Internet anonymity is important because it can protect individuals from oppressive censorship and those in positions where tying an identity to their online presence could cause harm to come to them. This project focused on one particular method of undermining anonymity: the browser fingerprint. Browsers are fingerprinted by gathering various information about the browser. The combination of this information is often reasonably unique, and can thus be used to identify and track that particular browser.
 
-Our project was to undermine the harvesting of the types of information which are typically used to create a browser fingerprint. In particular, we found that preventing enumeration (and mass detection) of fonts and plugins helped to generalize the browser. Setting the HTTP language headers to be as general as possible also helps reduce the effectiveness of fingerprinting. The Panopticlick\cite{panopticlick} tool, provided by the EFF, was used in gauging the effects of our project.
+Our project was to undermine the harvesting of the types of information which are typically used to create a browser fingerprint. In particular, we found that preventing enumeration (and mass detection) of fonts and plugins helped to generalize the browser. Setting the HTTP language headers to be as general as possible also helps reduce the effectiveness of fingerprinting. The Panopticlick\cite{panopticlick} tool, provided by the Electronic Frontier Foundation (EFF), was used in gauging the effects of our project.
 \end{abstract}
 
 % Table of contents
@@ -116,21 +116,20 @@ Our project was to undermine the harvesting of the types of information which ar
 % \subsubsection is level 3. All sections automatically added to ToC.
 \section{Genesis}
 \subsection{Overview}
-Internet anonymity refers to the ability to remain anonymous on the internet, often behind a pseudonym. Internet anonymity helps support freedom of speech: governments can't censor you if they don't know who you are. Skirting surveillance, however, generally requires anonymity. Oppressive governments often attempt censorship. For example, Turkey recently blocked Twitter and Youtube, Amnesty International stated that China ``has the largest recorded number of imprisoned journalists and cyber-dissidents in the world'', and in Iran, internet users must promise not to access ``non-Islamic'' websites.
-\textcolor{red}{TODO: I think that this stuff needs to be cited.}
+Internet anonymity refers to the ability to remain anonymous on the internet, often behind a pseudonym. Internet anonymity helps support freedom of speech: governments can't censor you if they don't know who you are. Skirting surveillance, however, generally requires anonymity. Oppressive governments often attempt censorship. For example, Turkey recently blocked Twitter and Youtube, Amnesty International stated that China ``has the largest recorded number of imprisoned journalists and cyber-dissidents in the world'', and in Iran, internet users must promise not to access ``non-Islamic'' websites \cite{anon}.
 
-Further, whistleblowers may need anonymity to prevent retaliation, undercover military and law enforcement agents often need anonymity for their protection, and journalists may have to protect their sources. Internet anonymity is also a line of defence against targeted attacks (it's difficult to target someone whom you cannot identify).
+Further, whistleblowers may need anonymity to prevent retaliation, undercover military and law enforcement agents often need anonymity for their protection, and journalists may have to protect their sources \cite{toranon}. Internet anonymity is also a line of defence against targeted attacks (it's difficult to target someone whom you cannot identify).
 
-Internet anonymity, however, is often under attack. Some modern threats to internet anonymity which are relevant in Canada include how IP addresses can be tied to an ISP customer (but court rulings have found that IP addresses are insufficient to identify an individual), as well as a number of political acts, both in the House of Commons and in Congress (and since many web sites are American, changes in American law affect Canadians, too). Tracking services pose a threat to anonymity as well, especially with online advertisers.
+Internet anonymity, however, is often under attack. Some modern threats to internet anonymity which are relevant in Canada include how IP addresses can be tied to an ISP customer (but court rulings have found that IP addresses are insufficient to identify an individual \cite{ipnotpeople}), as well as a number of political acts, both in the House of Commons and in Congress (and since many web sites are American, changes in American law affect Canadians, too). Tracking services pose a threat to anonymity as well, especially with online advertisers.
 
 \subsection{Approach and early planning}
+In planning our project, we considered some threats such as spying on Tor exit nodes and analysing unencrypted data sent over HTTP. However, these areas were very well documented, and we desired to study a more novel field.
+
 One lesser known threat to internet anonymity is browser fingerprinting, in which information about the browser and computer are combined to form a digital fingerprint. That is, information such as the list of installed fonts and plugins, screen resolution, time zone, and several others features of a given system can be combined to form a reasonably unique fingerprint.
 
 We chose to study this area because there has been fairly little research into browser fingerprinting. Our preliminary findings were that some web browsers are very susceptible to fingerprinting. This was discovered by using the Panopticlick\cite{panopticlick} tool, provided by the EFF. This tool collects data from the browser and uses that data to estimate the uniqueness of the browser. In early testing, we found that our browsers were often highly unique, and thus, had the potential to be easily tracked.
 
 For our project, we decided to minimize the degree to which the browser can be tracked via its fingerprint. That is, we desired to make the browser as generic as possible (from the viewpoint of querying websites).
-
-\textcolor{red}{TODO: Should we mention the other ideas that we considered (eg, Tor exit node analysis) here? I'd like to, but I'm having a hard time fitting it into the text in a fluid way. I would put this at the very beginning of the approach section, like in considering topics related to internet anonymity we initially considered researching Tor exit nodes, here's a brief explanation of that, but ultimately we ended up looking at a lesser known threat ... browser fingerprinting}
 
 \subsection{Pre-conceptions}
 In the early stages of our project, it was unclear what restrictions we would face in preventing fingerprinting. It was decided that we would develop a browser extension, and chose to do so for the Chrome browser because it (1) was considered to be easier to develop extensions for and (2) allowed enumeration of plugins, which provided an additional vulnerability against fingerprinting (and thus being a more optimal choice for studying how to thwart fingerprinting techniques). For comparison, the Firefox browser allows the ability to disable enumeration of most plugins (some remain visible), but was still vulnerable to fingerprinting because it allowed mass querying of plugin data. Internet Explorer, however, does not allow enumeration of the plugin array.
@@ -152,8 +151,6 @@ We would also create a whitelist for our extension, which was a list of domains 
 
 \subsection{Goals}
 The general goal of our project was to study and understand how browser fingerprinting works and its implications on internet anonymity. Our practical goal, however, was to detect fingerprinting behavior and alert the users to it. We believe that websites often take liberties of users not being aware of the site's actions, and desired to make those actions transparent via our extension.
-
-\textcolor{red}{TODO: Should we mention the revised goals here or later? ie, the fact we couldn't alert the user and sites sometimes silently fail? I'm thinking just mention it later, so that the report reads more linearly.}
 
 \subsection{Obstacles}
 The biggest obstacle that we had to face was the fact that we were treading into very new ground. Not only did we have to work with languages, frameworks, APIs, and fields that some of us had little or no experience in, but we were also largely doing what we believe to be a novel project. According to our knowledge, there are no other extensions or programs that attempt to thwart browser fingerprinting. This reduced the number of resources we could draw from.
@@ -220,8 +217,6 @@ This was later found to be incorrect, and in fact JavaScript defines an approach
 
 For the purpose of this research project, however, we believe that our implementation is sufficiently useful, particularly as a proof-of-concept. A practical implementation could expand on this using the previously outlined techniques to create a more user-friendly experience.
 
-\textcolor{red}{TODO: I feel that we can expand on our analysis here. The focus should be a meta-analysis of the previous sections.}
-
 \section{Technical components}
 \subsection{Approaches and methods}
 Since our project was driven by a Chrome extension, we were limited to using technologies supported for Chrome extensions, which is largely just JavaScript, with additional functionality provided by various APIs only available for Chrome extensions.
@@ -247,9 +242,21 @@ Further, to the extent of the authors' knowledge, there are very few, if any, we
 
 To allow sites to access the information that our extension blocks, we provided a domain whitelist. Domains which are on the whitelist are not subject to the limitations imposed by the extension. That is, the HTTP\_ACCEPT headers and the \texttt{window.navigator} object are unchanged for sites which are on the whitelist. The whitelist is implemented by use of Chrome's storage API\cite{storage}, which allowed for storing a JavaScript array in a manner that can be consistently accessed and provides means of utilizing Chrome's account syncing feature.
 
-This whitelist can be viewed and modified in an easy fashion via a created settings page. \textcolor{red}{TODO: Add picture of settings page.}
+This whitelist can be viewed and modified in an easy fashion via a created options page.
 
-To create a more user-friendly experience, we also implemented a browser action (which is an icon on the browser's main toolbar that opens a popup window when clicked). This browser action provides options for quickly adding and removing the current domain from the whitelist. \textcolor{red}{TODO: Add picture of browser action - both with and without the current page being on the whitelist.}
+\begin{figure}[ht]
+  \centering
+      \includegraphics[width=0.9\textwidth]{options.png}
+  \caption{The extension's options page}
+\end{figure}
+
+To create a more user-friendly experience, we also implemented a browser action (which is an icon on the browser's main toolbar that opens a popup window when clicked). This browser action provides options for quickly adding and removing the current domain from the whitelist.
+
+\begin{figure}[ht]
+  \centering
+      \includegraphics[width=0.9\textwidth]{browser-action.png}
+  \caption{The browser action before and after adding a site to the whitelist}
+\end{figure}
 
 \subsection{Progress and effort}
 Our extension succeeded in the ultimate goal of finding working techniques for preventing browser fingerprinting. However, some of techniques have limitations, and due to time constraints, we did not succeed in our practical goal of alerting the user to sites that are performing fingerprinting techniques.
@@ -258,16 +265,16 @@ We were able to successfully prevent access to the installed plugins, as well as
 
 We found that font detection is typically done with Flash, which is the approach used by Panopticlick. We found that the FlashBlock extension\cite{flashblock} is particularly effective in preventing Flash from harvesting data. It's also possible to prevent font enumeration in your Flash configuration by setting \texttt{DisableDeviceFontEnumeration = 1} in file \texttt{mms.cfg}.
 
-\textcolor{red}{TODO: What else?}
-
 \subsection{Difficulties and limitations}
-As previously mentioned, font detection was the main difficulty faced by the project. We were specifically trying to thwart Javascript techniques. We discovered a method\cite{fontdetection} in which the site would inject a hidden span tag with a predefined string. The site would then measure both the height and width of the text, and from those measurements, they could compare them to a set of predefined fonts measured the same way. Right away it is easy to see there are major limitations to detecting this way. the biggest being that you are limited to a defined set of fonts to look for. The other drawback is that it is not one hundred percent accurate. In order to stop the detection using this method, two techniques were attempted. The first being to block the specific functions or scripts that to the detecting. This is an effective approach for our example, but does not work in the general case. In order for this technique to be effective, you would need to know the name of every script that does font detection. The next approach was to look for patterns within the DOM methods called when doing detection. In our example, every time font detection is done, a span tag is created. So what you could do is override the method that creates span tags, keep track of the number of span tags created, and block them if they exceed a threshold. The difficulty with this method is that even a site that is in fact safe, may be flagged for attempting fingerprinting. This would then result to incorrectly blocking these methods from happening, and would likely break the functionality and design of the site. It is also generally frowned upon to override DOM methods, as you will often find unexpected activity and browser bugs appearing because of this technique.    
+As previously mentioned, font detection was the main difficulty faced by the project. We were specifically trying to thwart Javascript techniques. We discovered a method\cite{fontdetection} in which the site would inject a hidden span tag with a predefined string. The site would then measure both the height and width of the text, and from those measurements, they could compare them to a set of predefined fonts measured the same way. Right away it is easy to see there are major limitations to detecting this way. the biggest being that you are limited to a defined set of fonts to look for.
+
+The other drawback is that it is not one hundred percent accurate. In order to stop the detection using this method, two techniques were attempted. The first being to block the specific functions or scripts that to the detecting. This is an effective approach for our example, but does not work in the general case. In order for this technique to be effective, you would need to know the name of every script that does font detection.
+
+The next approach was to look for patterns within the DOM methods called when doing detection. In our example, every time font detection is done, a span tag is created. So what you could do is override the method that creates span tags, keep track of the number of span tags created, and block them if they exceed a threshold. The difficulty with this method is that even a site that is in fact safe, may be flagged for attempting fingerprinting. This would then result to incorrectly blocking these methods from happening, and would likely break the functionality and design of the site. It is also generally frowned upon to override DOM methods, as you will often find unexpected activity and browser bugs appearing because of this technique.    
 
 The sandboxing of Chrome extensions was another major limitation. We began development without knowing this fact and revelation of this sandboxing almost prevented the anti-plugin-detection code from working. In order to get around this limitation, our extension created a new script element with the code we intended to inject and inserted that element into the DOM of the page. This allows the injected script to be run in the same scope as other JavaScript in the page (necessary to overwrite the \texttt{window.navigator} object), but comes with the side-effect of the code no longer being able to interact with the extension (or at least, not directly).
 
 It was thought for the majority of development time that since most JavaScript information was accessed via properties (versus functions), that it would be impossible to manipulate \textit{behaviour} of accessing these properties. This ultimately lead us to implement the extension in such a way that the user is unaware when sites silently fail when attempting to access the plugins array. It later became clear that JavaScript does allow the implementation of a ``getter'' function that is automatically called when accessing properties. Due to time constraints, this could not be integrated into our implementation.
-
-\textcolor{red}{TODO: Ya'all have any other difficulties?}
 
 \section{Results}
 \subsection{Results and outcomes}
@@ -276,7 +283,7 @@ The project was a general success, as we succeeded in finding methods of heavily
 
 The results of using Panopticlick before and after activating our extension are shown in table \ref{tab:resultTable}. The fields which we attempted to change are shown in red. The numbers shown represent the number for ``one in $x$ browsers has this value''.
 
-\begin{table}[h]
+\begin{table}[ht]
 	\centering
 	\begin{tabular}{|r|r|r|}
 		\hline
@@ -316,8 +323,6 @@ It is also questionable how valuable tracking a browser can be. Advertisers typi
 
 In addition to the information gather by Panopticlick, trackers could use the approximate location tied to an IP address to further create a more accurate browser fingerprint. While geoIP is by no means accurate, it does not need to be in a fingerprint, where it merely serves as yet another consistent piece of information about you. Protecting against this is more difficult. The most effective line of defence would be to use a proxy service that would result in a random proxy being used for different sites. An example would be to use Tor\cite{tor}, which occasionally semi-randomizes the exit nodes used.
 
-\textcolor{red}{TODO: Perhaps deeper look at other areas? Ideas here?}
-
 \section{Recommendations for further study}
 It is the opinion of the authors that many of the features created by our extension could be better applied by the browsers. As an intermediate step, Chrome should consider taking the approach that Firefox and Internet Explorer have taken regarding the plugins array: don't allow it to be enumerated. However, as Panopticlick demonstrates, it is insufficient to merely prevent enumeration. It is also necessary that we prevent mass collection of plugin data. This can be done by limiting the number of requests for plugin information that a website can make before requiring user permission to continue.
 
@@ -327,10 +332,17 @@ Flash should consider disabling font enumeration by default, and prompt the user
 
 Overall, it is the belief of the authors that users are being left out of the loop and security could be improved by increasing transparency -- for example, through prompting the user in the case of sites asking for too much information. In order for this to be effective, however, users will need to be educated in the risks of tracking and online privacy.
 
-\textcolor{red}{\textbf{TODO: Read through this document very carefully and find more citations for dubious claims. Also, make whatever changes you think benefit this document. Proof-read, etc.}}
-
 % Bibliography
 \begin{thebibliography}{0}
+
+\bibitem{anon}
+  Background information on internet anonymity: \url{http://www.internetfreedom.org/Background}
+  
+\bibitem{toranon}
+  Who uses Tor: \url{https://www.torproject.org/about/torusers.html.en}
+  
+\bibitem{ipnotpeople}
+  IP addresses do not constitute as people -- RT: \url{http://rt.com/usa/ip-constitute-person-copyright-suit-973/}
 
 \bibitem{panopticlick}
   Panopticlick: \url{https://panopticlick.eff.org/}
@@ -351,7 +363,7 @@ Overall, it is the belief of the authors that users are being left out of the lo
   The Tor project: \url{https://www.torproject.org/}
 
 \bibitem{fontdetection}
-  Javascript font detection: \url{http://www.lalit.org/lab/javascript-css-font-detect/}
+  JavaScript font detection technique: \url{http://www.lalit.org/lab/javascript-css-font-detect/}
 
 \end{thebibliography}
 
