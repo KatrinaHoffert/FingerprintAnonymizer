@@ -3,6 +3,8 @@
 A Chrome extension for removing identifying information to reduce or prevent browser fingerprinting.
 
 ##Installation
+UPDATE 2014-08-17: Chrome no longer allows local extensions to be installed on Windows machines. You'll have to jump through some hoops install this. You shouldn't intall it, anyway. It was experimental and development ended once it served its purpose. It has a handful of issues on some sites.
+
 For development:
 
 1. Go to `chrome://extensions`
